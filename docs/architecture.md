@@ -51,9 +51,9 @@ OWASP distinguishes direct and indirect prompt injection and documents encoding,
 
 Manage Jekyll with Bundler and a committed lockfile. Manage Alpine with npm and a committed lockfile, copying its distribution into the generated site during the build. Node supplies build scripts and its built-in test runner; no bundler or additional runtime framework is planned. Alpine supports [script-based installation](https://alpinejs.dev/essentials/installation); serving a locked local artifact makes dependency updates reproducible.
 
-Configure weekly [Dependabot updates](https://docs.github.com/en/code-security/reference/supply-chain-security/dependabot-options-reference) for Bundler, npm, and GitHub Actions, with update pull requests assigned to `squinky86`. Verify security alerts and updates separately. Personal notification settings control email delivery, so documentation describes that owner-controlled step.
+Keep Dependabot vulnerability alerts enabled, with version-update PRs and automatic security-fix PRs disabled. The weekly `dependency-issues.yml` workflow checks locked Bundler/npm packages and pinned GitHub Actions, then reports available updates in issues assigned to `squinky86`. The maintainer resolves those issues manually. The workflow has content-read and issue-write permissions and never changes code or lockfiles. Personal notification settings control email delivery.
 
-Pull requests install locked dependencies, run JavaScript tests, and build the site. The default branch deploys only a tested artifact through [GitHub Pages Actions](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages), using limited deployment permissions and the `github-pages` environment. Checks cover the application, documentation, navigation, and assets under the `/DIMWIT` project path.
+Development commits go directly to `main` / HEAD throughout alpha and beta, without development pull requests. Each `main` push installs locked dependencies, runs JavaScript tests, and builds the site. It deploys only a tested artifact through [GitHub Pages Actions](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages), using limited deployment permissions and the `github-pages` environment. Checks cover the application, documentation, navigation, and assets under the `/DIMWIT` project path.
 
 Both build and deploy use `ubuntu-26.04`. Prefer that runner for future jobs when it supports the required tooling. The application version comes from `package.json`; build preparation generates the shared version label for application and docs.
 
@@ -61,7 +61,9 @@ Both build and deploy use `ubuntu-26.04`. Prefer that runner for future jobs whe
 
 Project code, documentation, and original artwork use AGPL-3.0-only. Dependency notices remain intact, and the deployed application links to its corresponding source. The full license is in [LICENSE](../LICENSE).
 
-The project follows [Semantic Versioning](https://semver.org/) with an explicit development-stage convention: `0.0.x` releases are alpha, `0.y.x` releases with `y >= 1` are beta, and `1.0.0` defines the stable public contract. Alpha and beta releases are GitHub prereleases with immutable version tags. Technique data formats may use independent internal versions when compatibility requires them, without turning format identification into a user-facing attribution feature.
+The project uses [Semantic Versioning](https://semver.org/) with an explicit development-stage convention: `0.0.x` releases are alpha and `0.y.x` releases with `y >= 1` are beta. Alpha and beta releases are GitHub prereleases with immutable version tags.
+
+Backward compatibility is never a requirement, including after `1.0.0`. Interfaces, technique formats, and behavior may change or be removed as needed. Do not add legacy adapters, migrations, or compatibility tests solely to preserve previous releases. Record breaking changes and reflect them in release numbering; maintainers do not need to keep old behavior working.
 
 ## Technical references
 

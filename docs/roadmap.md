@@ -6,7 +6,9 @@ DIMWIT is a browser-based technique demonstrator and pasted-text inspector. Demo
 
 The first alpha delivers the non-printing-text proof of concept. Later alphas add visible, Unicode, encoded, and indirect injection families. The beta release combines them into one inspection workbench. The application does not claim to prove intent, authorship, model obedience, or universal prompt safety.
 
-**Implementation status:** the 0.0.1 application is ready for review in [PR #19](https://github.com/squinky86/DIMWIT/pull/19). It includes Unicode-tag generation and recovery, automatic hidden-character inspection, exact evidence, generated documentation, the shared logo, locked dependencies, and Pages CI. User acceptance, the first production deployment, default-branch Dependabot verification, and the release tag remain gates in #8–#10. See the [review checklist](review.md) for verification and limits.
+**Implementation status:** the 0.0.1 application is on `main` for review through GitHub Pages. It includes Unicode-tag generation and recovery, automatic hidden-character inspection, exact evidence, generated documentation, the shared logo, locked dependencies, and Pages CI. User acceptance, deployment and dependency verification, and the release tag remain gates in #8–#10. See the [review checklist](review.md) for verification and limits.
+
+Develop directly on `main` / HEAD throughout alpha and beta without development pull requests. Backward compatibility is never required, including in later releases. Interfaces, formats, and behavior may change or be removed; old behavior does not need compatibility layers or migration support.
 
 Unicode-tag generation, known subdivision-flag context, and the basic default-ignorable/format-control inventory are delivered in this MVP. Milestone 0.0.3 extends that baseline with variation-selector payloads, confusables, bidi pairing, unusual whitespace, normalization comparisons, and more complete context validation.
 
@@ -56,8 +58,8 @@ These states can coexist. “No supported indicators found” applies only after
 | [#5](https://github.com/squinky86/DIMWIT/issues/5) | Build the accessible Demonstrate selector and method-free Inspector with copy, reset, raw, rendered, and escaped views. | #3, #4 |
 | [#6](https://github.com/squinky86/DIMWIT/issues/6) | Verify transformation correctness, Unicode handling, benign examples, evidence spans, and browser workflows. | #3, #4, #5 |
 | [#7](https://github.com/squinky86/DIMWIT/issues/7) | Publish generated user/developer docs, inspection limits, AGPL notices, and shared branding. | #1, #2, #5 |
-| [#8](https://github.com/squinky86/DIMWIT/issues/8) | Commit lockfiles and configure Dependabot and security-update notifications. | #2 |
-| [#9](https://github.com/squinky86/DIMWIT/issues/9) | Validate pull requests and deploy a tested application and documentation artifact through GitHub Actions. | #2, #6, #7, #8 |
+| [#8](https://github.com/squinky86/DIMWIT/issues/8) | Commit lockfiles, retain security alerts, and report dependency updates in issues for manual resolution without automatic PRs or code changes. | #2 |
+| [#9](https://github.com/squinky86/DIMWIT/issues/9) | Validate `main` commits and deploy a tested application and documentation artifact through GitHub Actions. | #2, #6, #7, #8 |
 | [#10](https://github.com/squinky86/DIMWIT/issues/10) | Record acceptance evidence and publish the v0.0.1 alpha release. | #1–#9 |
 
 Generation and inspection can proceed in parallel after the initial transformation and evidence model are agreed. Dependency automation can run alongside them. Documentation and test preparation should begin early; their dependencies describe completion gates.
@@ -96,6 +98,6 @@ The supplied `~/projects/watermark` directory was still empty during implementat
 
 ## Keeping the plan current
 
-GitHub milestones and their linked issues are the execution record. Keep acceptance criteria and dependencies current, link implementation pull requests to their issues, and record validation evidence before closing them. Open, associated pull request, and closed states provide enough progress tracking without requiring a separate project board.
+GitHub milestones and their linked issues are the execution record. Keep acceptance criteria and dependencies current, link commits and workflow runs to their issues, and record validation evidence before closing them. Open and closed issue states plus commit links provide progress tracking without a separate project board or pull-request workflow.
 
-Update this roadmap when release scope changes. Close milestones only after their release gates pass. Each release documents supported analyzers, demonstration coverage, known gaps, and any incomplete checks. No scheduled maintenance or autonomous monitoring is configured.
+Update this roadmap when release scope changes. Close milestones only after their release gates pass. Each release documents supported analyzers, demonstration coverage, known gaps, and any incomplete checks. A weekly dependency check reports update issues for manual resolution; it does not perform autonomous code maintenance.

@@ -30,7 +30,7 @@ for (const file of htmlFiles) {
     if (info.isDirectory()) await stat(resolve(target, 'index.html'));
   }
 }
-for (const excluded of ['package.json', 'Gemfile', 'node_modules', 'tests', 'scripts', 'vendor', '.git']) {
+for (const excluded of ['package.json', 'Gemfile', 'node_modules', 'tests', 'scripts', 'vendor', '.git', 'AGENTS.md']) {
   assert.equal(await stat(resolve(root, excluded)).catch(() => null), null, `Build leaked ${excluded}`);
 }
 assert.ok(files.includes(resolve(root, 'assets/vendor/alpine.js')));

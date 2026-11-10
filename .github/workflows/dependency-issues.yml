@@ -1,0 +1,35 @@
+name: Report dependency updates
+
+on:
+  schedule:
+    - cron: '23 14 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: dependency-issues
+  cancel-in-progress: false
+
+jobs:
+  report:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-26.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version-file: .node-version
+      - uses: ruby/setup-ruby@b3aaceaef7e0ee231b499e7b5f49c03fc1d32199 # v1
+        with:
+          ruby-version: .ruby-version
+      - name: Report available updates without changing code
+        run: node scripts/check-dependencies.mjs --publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DEPENDENCY_ASSIGNEE: squinky86

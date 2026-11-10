@@ -1,3 +1,5 @@
+# Version-update PRs are disabled. Security-fix PRs are disabled in repository settings.
+# dependency-issues.yml reports available updates as issues for manual resolution.
 version: 2
 updates:
   - package-ecosystem: bundler
@@ -5,28 +7,16 @@ updates:
     schedule:
       interval: weekly
       day: monday
-    assignees: [squinky86]
-    open-pull-requests-limit: 5
-    groups:
-      ruby-compatible:
-        update-types: [minor, patch]
+    open-pull-requests-limit: 0
   - package-ecosystem: npm
     directory: /
     schedule:
       interval: weekly
       day: monday
-    assignees: [squinky86]
-    open-pull-requests-limit: 5
-    groups:
-      javascript-compatible:
-        update-types: [minor, patch]
+    open-pull-requests-limit: 0
   - package-ecosystem: github-actions
     directory: /
     schedule:
       interval: weekly
       day: monday
-    assignees: [squinky86]
-    open-pull-requests-limit: 5
-    groups:
-      actions:
-        patterns: ['*']
+    open-pull-requests-limit: 0

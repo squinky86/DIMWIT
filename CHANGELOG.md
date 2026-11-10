@@ -9,3 +9,5 @@
 - Locked dependencies, weekly Dependabot updates, and tested GitHub Pages deployment using ubuntu-26.04.
 
 This preview has not been tagged or published as a release.
+
+Development proceeds directly on `main` during alpha and beta. Backward compatibility is never required. Dependency automation reports available updates as issues for manual resolution; automatic update PRs and code changes are disabled.
