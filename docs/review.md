@@ -19,7 +19,7 @@ This build is an alpha preview developed directly on `main`. Review [the deploye
 
 Core automated tests cover 24 cases: literal vectors, all printable ASCII, exact cover preservation, Unicode offsets and display boundaries, repeated marks, benign multilingual and emoji input, malformed and reserved tags, output and inspection limits, partial scanning, analyzer failures, and inert decoded strings.
 
-Eight dependency-report tests cover issue creation, no-update behavior, duplicate and closed-report suppression, preserving owner notes, handling edited report markers, stable report fingerprints, and Action pin validation.
+Twelve dependency-report tests cover issue creation, no-update behavior, duplicate and closed-report suppression, preserving owner notes, handling edited report markers, stable report fingerprints, generic Action references, new-series notifications, exact-tag fallback, and excluding drafts, prereleases, and downgrades.
 
 Twelve interaction tests cover the default demonstration, the fixed 600 ms delay, successive edits, stale-result clearing, composition, reset and example cancellation, independent workflows, exact transfer to inspection, clipboard fallback and late failures, and timer cleanup.
 

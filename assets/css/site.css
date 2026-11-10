@@ -105,6 +105,7 @@ ul.notice { padding-left:28px; }.error { color:#8b352a; border-color:#ddb1a8; ba
 .prose h2 { margin:32px 0 16px; font-size:24px; } .prose h3 { margin-top:24px; }
 .prose p,.prose li { color:#48565a; } .prose pre { padding:18px; background:#e9ede5; border-radius:8px; }
 .prose code { font-size:.86em; } .prose table { border-collapse:collapse; width:100%; font-size:13px; }
+.table-scroll { overflow-x:auto; }
 .prose th,.prose td { text-align:left; padding:10px; border-bottom:1px solid var(--line); vertical-align:top; } .prose img { max-width:100%; }
 @media (max-width:1000px) {
   .site-header,.site-footer,.app-shell,.docs-shell { width:calc(100% - 40px); }

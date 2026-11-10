@@ -1,6 +1,6 @@
 import { readFile, readdir } from 'node:fs/promises';
 import { execFileSync } from 'node:child_process';
-import { actionPins, planIssueUpdate } from './dependency-report.mjs';
+import { actionReferences, actionUpdate, planIssueUpdate } from './dependency-report.mjs';
 
 const publish = process.argv.includes('--publish');
 const repository = process.env.GITHUB_REPOSITORY || 'squinky86/DIMWIT';
@@ -30,7 +30,7 @@ for (const pkg of packages.values()) {
   candidates.push({ ecosystem: 'npm', ...pkg, available: latest.version, url: `https://www.npmjs.com/package/${encodeURIComponent(pkg.name)}` });
 }
 const gems = JSON.parse(execFileSync('ruby', ['-rbundler', '-rjson', '-e',
-  "puts JSON.generate(Bundler::LockfileParser.new(File.read('Gemfile.lock')).specs.map { |s| {name: s.name, current: s.version.to_s} }.uniq)"], { encoding: 'utf8' }));
+  "lock = Bundler::LockfileParser.new(File.read('Gemfile.lock')); puts JSON.generate(lock.specs.map { |s| {name: s.name, current: s.version.to_s} }.uniq + [{name: 'bundler', current: lock.bundler_version.to_s}])"], { encoding: 'utf8' }));
 for (const gem of gems) {
   const latest = await registry(`https://rubygems.org/api/v1/versions/${encodeURIComponent(gem.name)}/latest.json`);
   candidates.push({ ecosystem: 'RubyGems', ...gem, available: latest.version, url: `https://rubygems.org/gems/${encodeURIComponent(gem.name)}` });
@@ -42,21 +42,20 @@ const updates = JSON.parse(execFileSync('ruby', ['-rjson', '-e',
 const actions = new Map();
 for (const file of await readdir('.github/workflows')) {
   if (!/\.ya?ml$/.test(file)) continue;
-  for (const pin of actionPins(await readFile(`.github/workflows/${file}`, 'utf8'))) actions.set(`${pin.name}@${pin.current}`, pin);
+  for (const action of actionReferences(await readFile(`.github/workflows/${file}`, 'utf8'))) actions.set(`${action.name}@${action.current}`, action);
 }
 for (const action of actions.values()) {
-  const refs = new Set([action.ref]);
-  try { refs.add(api(`repos/${action.name}/releases/latest`).tag_name); }
-  catch (error) { if (!String(error.stderr).includes('HTTP 404')) throw error; }
-  const seen = new Set();
-  for (const ref of refs) {
-    const latest = api(`repos/${action.name}/commits/${encodeURIComponent(ref)}`).sha;
-    if (latest === action.current || seen.has(latest)) continue;
-    seen.add(latest);
-    const comparison = api(`repos/${action.name}/compare/${action.current}...${latest}`);
-    if (!['ahead', 'diverged'].includes(comparison.status)) continue;
-    updates.push({ ecosystem: 'GitHub Actions', name: `${action.name} (${ref})`, current: action.current,
-      available: latest, url: `https://github.com/${action.name}/compare/${action.current}...${latest}` });
+  // Check that the configured tag/branch still exists, without tracking its SHA.
+  api(`repos/${action.name}/commits/${encodeURIComponent(action.current)}`);
+  const release = api(`repos/${action.name}/releases/latest`);
+  let update = actionUpdate(action, release);
+  if (update) {
+    try { api(`repos/${action.name}/commits/${encodeURIComponent(update.available)}`); }
+    catch (error) {
+      if (!String(error.stderr).includes('HTTP 404')) throw error;
+      update = actionUpdate(action, release, false);
+    }
+    updates.push(update);
   }
 }
 

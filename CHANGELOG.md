@@ -7,7 +7,8 @@
 - Recovery of readable tag text, benign emoji context, explicit partial scans, and bounded output.
 - Accessible responsive interface, original SVG branding, clipboard fallback, and generated documentation.
 - Compact two-column workspace with Demonstrate selected by default, automatic updates after a fixed 0.6-second pause, switchable output views, and expandable evidence details.
-- Locked dependencies, weekly Dependabot updates, and tested GitHub Pages deployment using ubuntu-26.04.
+- Locked dependencies, weekly update issues for manual resolution, and tested GitHub Pages deployment using ubuntu-26.04.
+- Current stable Action release references, Node 26 LTS, Ruby 4.0, and Bundler 4.0.24; documented Jekyll constraints for deferred gem major upgrades.
 
 This preview has not been tagged or published as a release.
 

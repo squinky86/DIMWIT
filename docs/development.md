@@ -8,10 +8,10 @@ The application is Jekyll plus Alpine.js, with no backend or model integration. 
 
 ## Local setup
 
-Use Node 24 and Ruby 3.3.13, as selected in `.node-version` and `.ruby-version`. Install Bundler 2.5.22, a compiler, Ruby development headers, and OpenSSL development libraries where your platform requires them.
+Use Node 26 LTS and Ruby 4.0, as selected in `.node-version` and `.ruby-version`. These identifiers follow stable patch releases within their series. Install Bundler 4.0.24, a compiler, Ruby development headers, and OpenSSL development libraries where your platform requires them.
 
 ```sh
-gem install bundler -v 2.5.22
+gem install bundler -v 4.0.24
 bundle config set --local path vendor/bundle
 bundle install
 npm ci
@@ -20,7 +20,7 @@ npm run build
 npm run dev
 ```
 
-Open `http://127.0.0.1:4000/DIMWIT/`. On distributions that name the Bundler executable `bundle3.3`, use that command for the two Bundler setup commands; the npm scripts detect either executable. The production build uses `/DIMWIT` as its base path, matching GitHub Pages.
+Open `http://127.0.0.1:4000/DIMWIT/`. Ensure `ruby` and `bundle` on your `PATH` belong to the selected Ruby installation. The production build uses `/DIMWIT` as its base path, matching GitHub Pages.
 
 `npm run build` copies Alpine and its license, generates display-version data from `package.json`, builds with Jekyll, and checks internal links, assets, version labels, and build exclusions. `npm test` uses Node’s built-in test runner; there is no application test-framework dependency. The version is `0.0.1`, labeled **alpha preview** until release acceptance.
 
@@ -47,11 +47,31 @@ Work directly on `main` / HEAD throughout alpha and beta. Run appropriate checks
 
 The workflow uses **ubuntu-26.04** for both build and deploy. Prefer that runner for future jobs when it supports the required tooling. Each `main` push installs locked dependencies, tests, builds, verifies project-path links, and uploads a Pages artifact. A separate job deploys only that tested artifact with limited Pages/OIDC permissions. Manual workflow dispatch also requires `main`.
 
-Actions are pinned to commit SHAs. Dependabot vulnerability alerts remain enabled, while version-update PRs are disabled with `open-pull-requests-limit: 0` and security-fix PRs are disabled in repository settings. Dependency changes are resolved manually by the maintainer.
+Actions use maintained major release references: `actions/checkout@v7`, `actions/setup-node@v7`, `ruby/setup-ruby@v1`, `actions/upload-pages-artifact@v5`, `actions/configure-pages@v6`, and `actions/deploy-pages@v5`. Prefer stable generic release identifiers over commit hashes. These references receive upstream updates within their series without repository changes. npm and Bundler lockfiles still record exact installed package versions.
 
-The **Report dependency updates** workflow runs Mondays at 14:23 UTC or on manual dispatch, using `ubuntu-26.04`. It reads the npm and Bundler lockfiles (including transitive packages), checks upstream versions, and checks Action tracking refs plus latest releases. It creates an issue assigned to `squinky86` when updates are available, or refreshes the managed section of an existing open report while preserving owner notes outside it. Closing a report suppresses duplicates for that exact set of versions; a later version can create a new issue. It never closes an issue automatically, changes code or lockfiles, opens a PR, or commits anything. Its token has only repository-content read and issue write access.
+Dependabot vulnerability alerts remain enabled, while version-update PRs are disabled with `open-pull-requests-limit: 0` and security-fix PRs are disabled in repository settings. Dependency changes are resolved manually by the maintainer.
+
+The **Report dependency updates** workflow runs Mondays at 14:23 UTC or on manual dispatch, using `ubuntu-26.04`. It reads the npm and Bundler lockfiles (including transitive packages and the Bundler version) and checks upstream stable releases. For Actions, it reports releases outside the configured series, preferring the new major reference when available and falling back to the exact release tag otherwise. Updates already covered by a generic reference need no issue. It creates an issue assigned to `squinky86` when updates are available, or refreshes the managed section of an existing open report while preserving owner notes outside it. Closing a report suppresses duplicates for that exact set of versions; a later version can create a new issue. It never closes an issue automatically, changes code or lockfiles, opens a PR, or commits anything. Its token has only repository-content read and issue write access.
 
 Run `node scripts/check-dependencies.mjs` for a read-only report using Node, Ruby/Bundler, and authenticated GitHub CLI. `--publish` enables issue creation/refresh. Failed upstream lookups fail the check before issue publication instead of producing an incomplete success report. The report describes available versions; the maintainer decides which updates to apply and tests them on `main`. Dependabot vulnerability alerts remain a separate security signal. Personal notification settings control web and email delivery; issue assignment does not guarantee email.
+
+### Current upstream constraints
+
+The [#20 dependency review](https://github.com/squinky86/DIMWIT/issues/20) verified Jekyll 4.4.1 and Alpine 3.17.5 as current stable releases on 2026-11-10. Jekyll's published requirements exclude these newer gem majors:
+
+<div class="table-scroll" role="region" aria-label="Reviewed gem versions and dependency requirements" tabindex="0" markdown="1">
+
+| Gem | Compatible version in the lockfile | Newer version reviewed | Required range |
+| --- | --- | --- | --- |
+| `json` | 2.21.2 | 3.1.0 | Jekyll: `~> 2.6` |
+| `liquid` | 4.0.4 | 5.14.0 | Jekyll: `~> 4.0` |
+| `rouge` | 4.7.0 | 5.1.0 | Jekyll: `>= 3.0, < 5.0` |
+| `terminal-table` | 3.0.2 | 4.0.0 | Jekyll: `>= 1.8, < 4.0` |
+| `unicode-display_width` | 2.6.0 | 3.3.0 | terminal-table: `>= 1.1.1, < 3` |
+
+</div>
+
+Retain these compatible versions until parent releases allow the newer majors. Do not override the [Jekyll gem requirements](https://rubygems.org/gems/jekyll/versions/4.4.1) or [terminal-table requirements](https://rubygems.org/gems/terminal-table/versions/3.0.2). Record such deferrals before closing a dependency report. The report can surface a later upstream version for another manual review.
 
 ## Review and release
 

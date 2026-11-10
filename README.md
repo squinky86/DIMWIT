@@ -34,9 +34,10 @@ Development goes directly to `main` / HEAD throughout alpha and beta, without de
 
 ## Development
 
-Use Node 24, Ruby 3.3.13, and Bundler 2.5.22. Install the compiler and Ruby development headers required by your platform, then run:
+Use Node 26 LTS, Ruby 4.0, and Bundler 4.0.24. The version files select the current patch within each runtime series. Install the compiler and Ruby development headers required by your platform, then run:
 
 ```sh
+gem install bundler -v 4.0.24
 bundle config set --local path vendor/bundle
 bundle install
 npm ci
@@ -47,7 +48,7 @@ npm run dev
 
 Open `http://127.0.0.1:4000/DIMWIT/`. See [development instructions](docs/development.md), the [character mapping and limits](docs/format.md), and the [review checklist](docs/review.md). The prototype directory supplied for reference was empty, so the implementation uses an independently documented mapping and makes no prototype-compatibility claim.
 
-Jekyll and Alpine.js are the major dependencies, with committed lockfiles. A weekly GitHub Actions check reports available Ruby gem, npm package, and Action updates in issues assigned to `squinky86` for manual resolution. It never changes code or lockfiles. Dependabot security alerts stay enabled; version-update and security-fix PRs are disabled. Personal notification settings determine email delivery.
+Jekyll and Alpine.js are the major dependencies, with committed lockfiles. Actions use maintained major release references rather than commit hashes. A weekly GitHub Actions check reports available Ruby gem, Bundler, npm package, and Action updates in issues assigned to `squinky86` for manual resolution. It never changes code or lockfiles. Dependabot security alerts stay enabled; version-update and security-fix PRs are disabled. Personal notification settings determine email delivery.
 
 GitHub Actions tests and builds `main`, then deploys its tested artifact to Pages. Both jobs use **ubuntu-26.04**, the preferred runner when compatible. Implementation tasks and release gates are tracked in [GitHub issues](https://github.com/squinky86/DIMWIT/issues), with commits and workflow runs as evidence.
 
