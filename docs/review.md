@@ -4,7 +4,7 @@ permalink: /docs/review/
 ---
 # Review the 0.0.1 MVP
 
-This build is an alpha preview for review. Release tagging and production acceptance are tracked separately in [issue #10](https://github.com/squinky86/DIMWIT/issues/10).
+This build is an alpha preview for review in [PR #19](https://github.com/squinky86/DIMWIT/pull/19). Release tagging and production acceptance are tracked separately in [issue #10](https://github.com/squinky86/DIMWIT/issues/10).
 
 ## Try the application
 
