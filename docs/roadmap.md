@@ -6,6 +6,10 @@ DIMWIT is a browser-based technique demonstrator and pasted-text inspector. Demo
 
 The first alpha delivers the non-printing-text proof of concept. Later alphas add visible, Unicode, encoded, and indirect injection families. The beta release combines them into one inspection workbench. The application does not claim to prove intent, authorship, model obedience, or universal prompt safety.
 
+**Implementation status:** the 0.0.1 application is ready for review on `feat/0.0.1-mvp`. It includes Unicode-tag generation and recovery, automatic hidden-character inspection, exact evidence, generated documentation, the shared logo, locked dependencies, and Pages CI. User acceptance, the first production deployment, default-branch Dependabot verification, and the release tag remain gates in #8–#10. See the [review checklist](review.md) for verification and limits.
+
+Unicode-tag generation, known subdivision-flag context, and the basic default-ignorable/format-control inventory are delivered in this MVP. Milestone 0.0.3 extends that baseline with variation-selector payloads, confusables, bidi pairing, unusual whitespace, normalization comparisons, and more complete context validation.
+
 ## Milestone sequence
 
 | Milestone | User-visible outcome | Exit gate |
@@ -45,7 +49,7 @@ These states can coexist. “No supported indicators found” applies only after
 
 | Issue | Deliverable | Depends on |
 | --- | --- | --- |
-| [#1](https://github.com/squinky86/DIMWIT/issues/1) | Review the prototype and specify the non-printing demonstration, hidden-character inventory, limits, evidence, and test vectors. | Prototype access or an explicit decision to proceed without it. |
+| [#1](https://github.com/squinky86/DIMWIT/issues/1) | Specify the non-printing demonstration, hidden-character inventory, limits, evidence, and test vectors; compare the optional prototype when available. | The reference was empty; the independent mapping is documented for review. |
 | [#2](https://github.com/squinky86/DIMWIT/issues/2) | Establish Jekyll and Alpine.js structure, technique modules, separate Demonstrate and Inspect flows, and local processing. | #1 |
 | [#3](https://github.com/squinky86/DIMWIT/issues/3) | Generate a safe non-printing demonstration and recover content when its transformation is unambiguous. | #1, #2 |
 | [#4](https://github.com/squinky86/DIMWIT/issues/4) | Automatically inspect pasted text for hidden characters, controls, malformed sequences, and recoverable content. | #1, #2 |
@@ -88,7 +92,7 @@ DIMWIT can establish that characters, encodings, markup structures, or injection
 
 Carrier attribution, authenticated provenance, universal semantic detection, automatic traffic interception, remote fetching, browser extensions, PDF or Office parsing, OCR, external CSS evaluation, multimodal analysis, and live model-effectiveness testing are outside these milestones. The application preserves pasted input and never presents a transformed copy as universally safe.
 
-The supplied `~/projects/watermark` directory was empty during initial planning. Issue #1 tracks locating and reviewing the prototype before the first demonstration format is finalized. Its behavior is a reference rather than a compatibility requirement.
+The supplied `~/projects/watermark` directory was still empty during implementation. The requested MVP proceeds with the documented Unicode-tag mapping in [Hidden text & coverage](format.md). Issue #1 retains the unavailable prototype comparison for review. Its behavior is a reference rather than a compatibility requirement.
 
 ## Keeping the plan current
 

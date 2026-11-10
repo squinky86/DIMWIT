@@ -1,0 +1,30 @@
+title: DIMWIT
+description: Reveal the text you cannot see. Demonstrate and inspect hidden prompt text in your browser.
+url: https://squinky86.github.io
+baseurl: /DIMWIT
+repository: https://github.com/squinky86/DIMWIT
+markdown: kramdown
+highlighter: rouge
+permalink: pretty
+timezone: UTC
+strict_front_matter: true
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - package.json
+  - package-lock.json
+  - node_modules
+  - vendor
+  - scripts
+  - tests
+  - test-results
+  - CHANGELOG.md
+  - CONTRIBUTING.md
+  - docs/roadmap.md
+  - docs/architecture.md
+defaults:
+  - scope:
+      path: docs
+    values:
+      layout: docs

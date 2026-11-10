@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="{{ page.description | default: site.description | escape }}">
+  <meta name="referrer" content="no-referrer">
+  <title>{{ page.title | escape }} · DIMWIT</title>
+  <link rel="icon" type="image/svg+xml" href="{{ '/assets/images/dimwit-icon.svg' | relative_url }}">
+  <link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}">
+  {% if page.application %}<script type="module" src="{{ '/assets/js/app.js' | relative_url }}"></script>{% endif %}
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="brand" href="{{ '/' | relative_url }}" aria-label="DIMWIT home"><img src="{{ '/assets/images/dimwit-logo.svg' | relative_url }}" alt="DIMWIT — a pleasantly confused lightbulb" width="210" height="73"></a>
+    <nav aria-label="Main navigation">
+      <span class="version">v{{ site.data.build.version }} <span>{{ site.data.build.stage }}</span></span>
+      <a href="{{ '/docs/' | relative_url }}"{% if page.layout == 'docs' %} aria-current="page"{% endif %}>Documentation <span aria-hidden="true">↗</span></a>
+      <a href="{{ site.repository }}">GitHub <span aria-hidden="true">↗</span></a>
+    </nav>
+  </header>
+  {{ content }}
+  <footer class="site-footer">
+    <p>Deception, Interception, &amp; Marking Watermark Injection Toolkit</p>
+    <p><a href="{{ '/LICENSE' | relative_url }}">AGPL-3.0-only</a> <span aria-hidden="true">·</span> <a href="{{ site.repository }}">Source</a> <span aria-hidden="true">·</span> <a href="{{ '/docs/development/' | relative_url }}">Build &amp; contribute</a></p>
+  </footer>
+</body>
+</html>

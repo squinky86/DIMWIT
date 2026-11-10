@@ -1,0 +1,10 @@
+/_site/
+/.jekyll-cache/
+/.jekyll-metadata
+/.bundle/
+/vendor/
+/node_modules/
+/assets/vendor/
+/_data/build.json
+/test-results/
+/.DS_Store

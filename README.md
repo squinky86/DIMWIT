@@ -6,13 +6,13 @@
 
 **Deception, Interception, & Marking Watermark Injection Toolkit**
 
-DIMWIT is a planned Jekyll and Alpine.js web application for demonstrating prompt-injection techniques and inspecting pasted text for observable injection indicators.
+DIMWIT is a Jekyll and Alpine.js web application for demonstrating prompt-injection techniques and inspecting pasted text for observable injection indicators. Text processing stays in your browser.
 
-[Application on GitHub Pages](https://squinky86.github.io/DIMWIT/) · [Source repository](https://github.com/squinky86/DIMWIT) · [Milestones](https://github.com/squinky86/DIMWIT/milestones) · [Roadmap](docs/roadmap.md) · [Architecture](docs/architecture.md)
+[Application on GitHub Pages](https://squinky86.github.io/DIMWIT/) · [Generated documentation](https://squinky86.github.io/DIMWIT/docs/) · [Milestones](https://github.com/squinky86/DIMWIT/milestones) · [Roadmap](docs/roadmap.md) · [Architecture](docs/architecture.md)
 
-The project is in planning. The application and generated documentation are not deployed yet. The first release, **0.0.1**, will provide a non-printing-text demonstration and an automatic paste-to-inspect workflow. The main site will be the application, with documentation linked at `/DIMWIT/docs/`.
+The **0.0.1 alpha preview is implemented for review**. It demonstrates non-printing text with Unicode tags and automatically inspects pasted text for hidden Unicode, format controls, malformed tag sequences, and recoverable content. The Pages application and documentation become available after the implementation is merged and its deployment succeeds; `v0.0.1` has not been released.
 
-Demonstrate will provide the technique selector and safe examples. Inspect will run every supported analyzer automatically, show exact evidence, and require no carrier or method selection. It cannot determine the intent of arbitrary text or guarantee that a prompt is safe.
+**Inspect** starts with a paste field, runs all supported checks, and shows exact positions, decoded text, escaped evidence, and incomplete-scan notices. **Demonstrate** provides the technique selector, a harmless example, rendered/raw/escaped output, and copy or direct inspection. Neither workflow sends text to a model. Findings do not establish intent or guarantee prompt safety; ordinary-language injection and other encodings remain later-milestone work.
 
 ## Release plan
 
@@ -30,12 +30,25 @@ Versions `0.0.x` are alpha; `0.y.x` with `y >= 1` are beta. The approved roadmap
 
 ## Development
 
-Implementation tasks, dependencies and release gates are tracked in [GitHub issues](https://github.com/squinky86/DIMWIT/issues). See the [0.0.1 work breakdown](docs/roadmap.md#001-work-breakdown). Build and run instructions will arrive with the application foundation.
+Use Node 24, Ruby 3.3.13, and Bundler 2.5.22. Install the compiler and Ruby development headers required by your platform, then run:
 
-Jekyll and Alpine.js are the intended major dependencies. The plan uses lockfiles and Dependabot for Ruby gems, npm packages, and GitHub Actions, with update pull requests assigned to the maintainer.
+```sh
+bundle config set --local path vendor/bundle
+bundle install
+npm ci
+npm test
+npm run build
+npm run dev
+```
+
+Open `http://127.0.0.1:4000/DIMWIT/`. See [development instructions](docs/development.md), the [character mapping and limits](docs/format.md), and the [review checklist](docs/review.md). The prototype directory supplied for reference was empty, so the implementation uses an independently documented mapping and makes no prototype-compatibility claim.
+
+Jekyll and Alpine.js are the major dependencies. Committed lockfiles and weekly Dependabot configuration cover Ruby gems, npm packages, and GitHub Actions. Update PRs are assigned to the maintainer. Repository security alerts and automatic security fixes are enabled; personal notification settings determine email delivery. Scheduled version updates begin after the configuration reaches `main`.
+
+GitHub Actions tests and builds pull requests, then deploys tested `main` artifacts to Pages. Both jobs use **ubuntu-26.04**, the preferred runner when compatible. Implementation tasks and release gates are tracked in [GitHub issues](https://github.com/squinky86/DIMWIT/issues).
 
 ## License and artwork
 
 DIMWIT code, documentation and original SVG artwork are licensed under **AGPL-3.0-only**. See [LICENSE](LICENSE). Third-party dependencies retain their respective licenses.
 
-The shared [logo](assets/images/dimwit-logo.svg) and [compact icon](assets/images/dimwit-icon.svg) depict a confused little lightbulb. Application and generated documentation integration are included in 0.0.1.
+The shared [logo](assets/images/dimwit-logo.svg) and [compact icon](assets/images/dimwit-icon.svg) depict a confused little lightbulb and appear in the application, documentation, and repository.

@@ -16,7 +16,9 @@ Inspect has no technique selector. A single paste and explicit inspection action
 
 Pure JavaScript modules implement demonstrations and analyzers independently of Alpine and the DOM. A module declares a stable internal ID, label, technique family, required demonstration fields, capabilities, evidence types, limits, and optional demonstration and analysis functions. Internal IDs support tests and documentation; they are not claims about which external tool created pasted text.
 
-Every finding includes a source span, observed evidence, explanatory text, and decoded or transformed content only when the operation is unambiguous. Nested decoding records the transformation path and distinguishes original-input spans from decoded-content spans. The implementation defines one indexing convention and maps it correctly across JavaScript strings, Unicode code points, and displayed grapheme clusters.
+Every finding includes a source span, observed evidence, explanatory text, and decoded or transformed content only when the operation is unambiguous. Future nested decoding will record the transformation path and distinguish original-input spans from decoded-content spans. Evidence must distinguish JavaScript string offsets, Unicode code points, and user-perceived grapheme clusters.
+
+The 0.0.1 implementation uses `tags.js` for the Unicode-tag demonstration, `inspector.js` for automatic analyzer dispatch, and `text.js` plus a pinned Unicode 17 data file for evidence and limits. Descriptors declare stable IDs, fields, capabilities, evidence types, and budgets. Source ranges are end-exclusive UTF-16 offsets; separate code-point ranges are explicitly not grapheme positions. Nested decoding and grapheme visualization remain future work, not MVP capabilities.
 
 Analyzers return findings plus completion status. Size or depth limits, unsupported syntax, and analyzer failures produce an incomplete result rather than a clean result. No numeric confidence score is shown without a labeled and calibrated evaluation corpus.
 
@@ -52,6 +54,8 @@ Manage Jekyll with Bundler and a committed lockfile. Manage Alpine with npm and 
 Configure weekly [Dependabot updates](https://docs.github.com/en/code-security/reference/supply-chain-security/dependabot-options-reference) for Bundler, npm, and GitHub Actions, with update pull requests assigned to `squinky86`. Verify security alerts and updates separately. Personal notification settings control email delivery, so documentation describes that owner-controlled step.
 
 Pull requests install locked dependencies, run JavaScript tests, and build the site. The default branch deploys only a tested artifact through [GitHub Pages Actions](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages), using limited deployment permissions and the `github-pages` environment. Checks cover the application, documentation, navigation, and assets under the `/DIMWIT` project path.
+
+Both build and deploy use `ubuntu-26.04`. Prefer that runner for future jobs when it supports the required tooling. The application version comes from `package.json`; build preparation generates the shared version label for application and docs.
 
 ## Licensing and compatibility
 
