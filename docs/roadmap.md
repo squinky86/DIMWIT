@@ -6,7 +6,7 @@ DIMWIT is a browser-based technique demonstrator and pasted-text inspector. Demo
 
 The first alpha delivers the non-printing-text proof of concept. Later alphas add visible, Unicode, encoded, and indirect injection families. The beta release combines them into one inspection workbench. The application does not claim to prove intent, authorship, model obedience, or universal prompt safety.
 
-**Implementation status:** 0.0.1 and 0.0.2 are released. Unicode extensions for 0.0.3 are implemented with bounded selector recovery, bidi pairing, limited confusable mappings, spacing and normalization comparisons. Issues #11, #12, and #17 record verification and release evidence.
+**Implementation status:** 0.0.1–0.0.3 are released. The 0.0.4 encoding family is implemented with strict codecs, heuristic candidates, bounded nested inspection, transformation paths, and distinct original/decoded source ranges. Issue #13 records verification and release evidence.
 
 Develop directly on `main` / HEAD throughout alpha and beta without development pull requests. Backward compatibility is never required, including in later releases. Interfaces, formats, and behavior may change or be removed; old behavior does not need compatibility layers or migration support.
 

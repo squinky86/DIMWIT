@@ -76,17 +76,19 @@ application: true
           <template x-for="finding in (result ? result.findings : [])" :key="finding.id">
             <article class="finding" :class="'finding-' + finding.kind">
               <div class="finding-heading"><h3 x-text="finding.title"></h3><span class="finding-tag" x-text="findingLabel(finding.kind)"></span></div>
+              <p x-show="finding.path" x-text="finding.path"></p>
+              <p x-show="finding.layerDepth" x-text="'Evidence in decoded layer ' + finding.layerDepth + ', UTF-16 [' + finding.decodedStart + ', ' + finding.decodedEnd + '). Select highlights its original encoded source.'"></p>
               <div class="decoded" x-show="finding.decoded"><span class="sr-only">Revealed text</span><pre class="isolated" dir="auto" tabindex="0" aria-label="Revealed text" x-text="finding.decoded"></pre></div>
               <div class="decoded" x-show="finding.comparison !== undefined"><span x-text="finding.comparisonLabel"></span><pre class="isolated" dir="auto" tabindex="0" aria-label="Comparison text" x-text="finding.comparison"></pre><pre class="escaped" tabindex="0" aria-label="Escaped comparison" x-text="escaped(finding.comparison)"></pre></div>
               <div class="evidence"><code x-text="finding.codepoints"></code><span x-text="finding.count + ' code point' + (finding.count === 1 ? '' : 's')"></span><button type="button" class="text-button" @click="selectFinding(finding)" x-text="'Select ' + (finding.pointStart + 1) + '–' + finding.pointEnd"></button></div>
-              <details><summary>Explanation, context &amp; exact offsets</summary><p x-text="finding.explanation"></p><p x-show="finding.rule" x-text="'Rule: ' + finding.rule"></p><pre class="escaped" tabindex="0" aria-label="Escaped finding context" x-text="finding.context"></pre><p x-text="'UTF-16 range [' + finding.start + ', ' + finding.end + '); code-point range [' + finding.pointStart + ', ' + finding.pointEnd + '). End offsets are exclusive.'"></p></details>
+              <details><summary>Explanation, context &amp; exact offsets</summary><p x-text="finding.explanation"></p><p x-show="finding.rule" x-text="'Rule: ' + finding.rule"></p><pre class="escaped" tabindex="0" aria-label="Escaped finding context" x-text="finding.context"></pre><p x-text="'Original UTF-16 range [' + finding.start + ', ' + finding.end + '); code-point range [' + finding.pointStart + ', ' + finding.pointEnd + '). End offsets are exclusive.'"></p></details>
             </article>
           </template>
         </div>
         <p class="coverage-result" x-show="result && result.checks.length">Checks: <span x-text="checkSummary"></span></p>
       </section>
     </section>
-    <p class="scope-note">This alpha inspects Unicode formatting, comparisons, and supported direct or structural text. Findings do not establish intent; no findings does not establish safety. <a href="{{ '/docs/format/' | relative_url }}">Coverage &amp; limits ↗</a></p>
+    <p class="scope-note">This alpha inspects supported Unicode, structural text, and bounded encoded layers. Findings do not establish intent; no findings does not establish safety. <a href="{{ '/docs/format/' | relative_url }}">Coverage &amp; limits ↗</a></p>
     <p class="sr-only" role="status" aria-live="polite" aria-atomic="true" x-text="announcement"></p>
   </div>
 </main>

@@ -43,13 +43,13 @@ The checked-in tables come from **Unicode 18.0.0**. The character inventory and 
 
 Adjacent repeats of the same ordinary control are grouped into a single finding with a count. Tag runs are grouped separately. Each finding includes readable names where Unicode provides them, code points, and exact source ranges. Reserved default-ignorables receive an explicit fallback name.
 
-Legitimate joiners, variation selectors, byte-order marks, emoji, and directional controls are described as formatting evidence. The extensions below add defined variation, bidi, confusable, normalization, and direct-text coverage. They do not establish intent. General HTML and encoding inspection remain later-alpha work.
+Legitimate joiners, variation selectors, byte-order marks, emoji, and directional controls are described as formatting evidence. The extensions below add defined variation, bidi, confusable, normalization, and direct-text coverage. They do not establish intent. General markup inspection remains later-alpha work; bounded encoding inspection is described below.
 
 ## Positions and budgets
 
 Source ranges are zero-based, end-exclusive UTF-16 offsets matching browser textarea selection APIs. Code-point ranges are shown separately; the Select characters button uses the UTF-16 range. A code-point position is not a user-perceived grapheme position: a family emoji or a letter plus accent can contain several code points. This distinction is labeled rather than guessed.
 
-Scanning stops at 50,000 units or 200 findings. An input cut never splits a valid surrogate pair. Failed checks and limited scans cannot produce a complete no-findings result. Escaped context is bounded so a large run cannot expand a finding without limit.
+The original-input scan is limited to 50,000 units and results to 200 findings across all analyzers and decoded layers. An input cut never splits a valid surrogate pair. Failed checks and limited scans cannot produce a complete no-findings result. Escaped context is bounded so a large run cannot expand a finding without limit.
 
 ## Sources and maintenance
 
@@ -76,3 +76,28 @@ Unicode 18 standardized and emoji variation pairs identify ordinary base/selecto
 **Bidirectional controls:** generation offers LRE, RLE, LRO, RLO, LRI, RLI and FSI, each with the appropriate PDF or PDI closer. It inserts one balanced pair around one paragraph without existing controls; all cover code units remain unchanged. Inspection tracks up to 16 nested embedding/override/isolate openers. PDF cannot cross an isolate boundary; PDI ends its isolate and any embeddings within it. Paragraph boundaries reset the stack. Unpaired openers/closers receive explicit evidence and affected spans, while depth exhaustion makes inspection incomplete. LRM, RLM and ALM remain independent formatting evidence. This inspects logical control structure, not full visual layout, bracket resolution, or model behavior. Rendered/decoded/comparison blocks isolate directionality from application labels.
 
 References: [Unicode variation data](https://www.unicode.org/Public/18.0.0/ucd/StandardizedVariants.txt), [emoji variation sequences](https://www.unicode.org/Public/18.0.0/ucd/emoji/emoji-variation-sequences.txt), [UAX 9](https://www.unicode.org/reports/tr9/), [UAX 15](https://www.unicode.org/reports/tr15/), and [UTS 39](https://www.unicode.org/reports/tr39/).
+
+## Encodings and obfuscation (0.0.4)
+
+Generated representations use the literal frame `[[ENC:CODEC]]BODY[[/ENC]]`, with one of the codec names below. Fields accept 1–1,024 well-formed UTF-16 units. Unicode is never silently replaced during encoding. The complete output fits the 50,000-unit input limit. The framing identifies a recipe, not an author.
+
+| Codec | Generation and supported recovery |
+| --- | --- |
+| `base64` | RFC 4648 UTF-8 bytes, standard alphabet, canonical padding and padding bits. |
+| `base64url` | UTF-8 bytes, URL-safe alphabet, unpadded output; canonical padded or unpadded input. |
+| `hex` | UTF-8 bytes as two lowercase hex digits each; recovery also accepts a literal `0x` prefix. |
+| `percent` | Every UTF-8 byte as `%HH`; only contiguous complete byte escapes are decoded, not an entire URL. Links are never visited. |
+| `entities` | Every supported Unicode scalar as a hexadecimal numeric reference. Recovery supports decimal/hex numeric references and exactly `amp`, `lt`, `gt`, `quot`, `apos`, `nbsp`, all with semicolons. Controls other than tab/LF/CR, noncharacters, surrogates, NUL and HTML replacement mappings are rejected. This is a strict shared subset, not a full HTML parser. |
+| `unicode-escapes` | Every UTF-16 code unit as a four-digit JSON-style `\uXXXX` escape. Recovery also supports JavaScript scalar `\u{...}` escapes. Surrogate pairs must be well formed; source code is never evaluated. |
+
+Explicit malformed/unsupported frames, references or escapes produce partial evidence and an incomplete result. Byte decoders use fatal UTF-8 validation and preserve BOM characters. An invalid unframed Base64/hex guess may just be ordinary words or binary data; it is skipped rather than described as decoded text. Binary encodings are outside text-decoding coverage.
+
+Automatic candidates include percent/reference/Unicode-escape runs, `0x` hex, and unframed hex/Base64/Base64URL tokens of at least eight characters. Hex tokens need a digit. Base64 candidates need padding/alphabet punctuation or mixed letter case plus a digit; short or ambiguous plain words are intentionally omitted. Explicit frames can recover shorter values. These candidate rules are heuristic and may miss encodings or surface ordinary encoded data. Decoding itself does not establish intent.
+
+Inspection caps each encoded block at 16,384 units, each decoded block at 8,192 units, candidates at 100 per layer, and all decoded text at 20,000 UTF-16 units. At most three decoding steps and 32 total text layers are inspected. Hidden tag and variation-selector content shares these recursive budgets and retains its own smaller format limits. Up to 200 findings are displayed globally. Budget exhaustion never produces a no-findings success.
+
+Every nested finding shows `Input → codec → ...`. Its source selection highlights the original encoded ancestor. The separate decoded-layer range identifies the exact matched text within the transformed content; it is never presented as an exact character mapping into the original encoding. Decoded content and comparisons remain selectable inert text. The original input is retained unchanged.
+
+Spacing, alternating ASCII casing, leetspeak (`a/e/i/o/s/t` → `4/3/1/0/5/7`), and reversal of internal letters of ASCII words are reproducible **heuristic illustrations**. Only their labeled `[[EVASION:NAME]]...[[/EVASION]]` frames are recognized. DIMWIT does not infer semantic equivalence, recover an original sentence, or predict model behavior.
+
+References: [RFC 4648](https://www.rfc-editor.org/rfc/rfc4648), [RFC 3986](https://www.rfc-editor.org/rfc/rfc3986), [RFC 8259](https://www.rfc-editor.org/rfc/rfc8259), and [HTML character references](https://html.spec.whatwg.org/multipage/named-characters.html).

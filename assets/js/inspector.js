@@ -1,6 +1,7 @@
 import { MAX_INPUT, MAX_PAYLOAD, MAX_FINDINGS, isHidden, isTag, characterName, code, context, boundedSlice } from './text.js';
 import { analyzeTagRun } from './tags.js';
 import { directAnalyzer } from './direct.js';
+import { encodingAnalyzer } from './encoding.js';
 import { unicodeAnalyzers, isSelector, variationContext } from './unicode.js';
 
 function describe(cp) {
@@ -53,33 +54,62 @@ export const analyzers = [{
   evidenceTypes: ['formatting', 'hidden', 'partial'],
   limits: { inputUnits: MAX_INPUT, findings: MAX_FINDINGS, decodedCharacters: MAX_PAYLOAD, recursionDepth: 0 },
   analyze: scanHidden,
-}, directAnalyzer, ...unicodeAnalyzers];
+}, directAnalyzer, ...unicodeAnalyzers, encodingAnalyzer];
+
+export const MAX_DEPTH = 3, MAX_DECODED_TOTAL = 20000, MAX_LAYERS = 32;
 
 export function inspect(input, enabledAnalyzers = analyzers) {
   if (!input.length) return { status: 'empty', findings: [], reasons: [], checks: [], scannedUnits: 0 };
   const text = boundedSlice(input, 0, MAX_INPUT);
   const reasons = input.length > MAX_INPUT ? ['Only the first 50,000 UTF-16 units fit the input budget.'] : [];
-  const findings = [];
-  const checks = [];
-  let scannedUnits = text.length;
+  const findings = [], checks = [];
+  let scannedUnits = text.length, decodedUnits = 0;
+  const layers = [{ text, path: [], origin: null, depth: 0 }];
   if (!enabledAnalyzers.length) reasons.push('No analyzers were available.');
-  for (const analyzer of enabledAnalyzers) {
-    try {
-      const result = analyzer.analyze(text);
-      const available = MAX_FINDINGS - findings.length;
-      findings.push(...result.findings.slice(0, available).map((f, index) => ({ ...f, id: `${analyzer.id}-${index}` })));
-      if (result.findings.length > available) reasons.push('The combined 200-finding limit was reached. Some evidence is not displayed.');
-      reasons.push(...result.reasons);
-      scannedUnits = Math.min(scannedUnits, result.scannedUnits ?? text.length);
-      checks.push({ label: analyzer.label, complete: !result.reasons.length });
-    } catch {
-      reasons.push(`${analyzer.label} could not complete. Your original text is preserved.`);
-      checks.push({ label: analyzer.label, complete: false });
-      scannedUnits = 0;
+  for (let layerIndex = 0; layerIndex < layers.length; layerIndex++) {
+    const layer = layers[layerIndex];
+    for (const analyzer of enabledAnalyzers) {
+      try {
+        const result = analyzer.analyze(layer.text);
+        const layerLabel = layer.path.length ? layer.path.join(' → ') : 'Input';
+        for (const reason of result.reasons) reasons.push(`${layerLabel}: ${reason}`);
+        if (!layer.depth) {
+          scannedUnits = Math.min(scannedUnits, result.scannedUnits ?? text.length);
+          checks.push({ label: analyzer.label, complete: !result.reasons.length });
+        } else if (result.reasons.length) {
+          const check = checks.find(c => c.label === analyzer.label);
+          if (check) check.complete = false;
+        }
+        for (const [index, f] of result.findings.entries()) {
+          if (findings.length >= MAX_FINDINGS) {
+            reasons.push('The combined 200-finding limit was reached. Some evidence is not displayed.');
+            break;
+          }
+          const transform = f.transform ?? (f.kind === 'hidden' ? f.rule === 'variation-selector:utf8' ? 'variation-selector UTF-8' : 'Unicode tags' : '');
+          const path = [...layer.path, ...(transform ? [transform] : [])];
+          const origin = layer.origin ?? { start: f.start, end: f.end, pointStart: f.pointStart, pointEnd: f.pointEnd };
+          const finding = { ...f, id: `${layerIndex}-${analyzer.id}-${index}`, path: path.length ? `Input → ${path.join(' → ')}` : '', layerDepth: layer.depth };
+          if (layer.depth) {
+            Object.assign(finding, origin, { decodedStart: f.start, decodedEnd: f.end, decodedPointStart: f.pointStart, decodedPointEnd: f.pointEnd });
+          }
+          findings.push(finding);
+          if (!f.decoded || !['hidden', 'encoded'].includes(f.kind)) continue;
+          if (layer.depth >= MAX_DEPTH || layers.length >= MAX_LAYERS || decodedUnits + f.decoded.length > MAX_DECODED_TOTAL) {
+            reasons.push('Nested inspection reached its limit: 3 decoding steps, 32 layers, or 20,000 total decoded UTF-16 units.');
+            finding.decoded = '';
+            finding.explanation += ' The next decoded layer was withheld because the shared decoding budget was reached.';
+            continue;
+          }
+          decodedUnits += f.decoded.length;
+          layers.push({ text: f.decoded, origin, path, depth: layer.depth + 1 });
+        }
+      } catch {
+        reasons.push(`${analyzer.label} could not complete. Your original text is preserved.`);
+        if (!layer.depth) { checks.push({ label: analyzer.label, complete: false }); scannedUnits = 0; }
+        else { const check = checks.find(c => c.label === analyzer.label); if (check) check.complete = false; }
+      }
     }
   }
-  return {
-    status: reasons.length ? 'incomplete' : findings.length ? 'findings' : 'none',
-    findings, reasons: [...new Set(reasons)], checks, scannedUnits,
-  };
+  return { status: reasons.length ? 'incomplete' : findings.length ? 'findings' : 'none',
+    findings, reasons: [...new Set(reasons)], checks, scannedUnits, decodedUnits, layers: layers.length };
 }

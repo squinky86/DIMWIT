@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.0.4 — 2026-11-10
+
+- Added strict UTF-8 Base64/Base64URL, hex, percent, character-reference and Unicode-escape demonstrations and inspection.
+- Added bounded recursive inspection across decoded layers with transformation paths, separate original/decoded offsets, and explicit incomplete status at shared budgets.
+- Added spacing, casing, leetspeak and typoglycemia illustrations with heuristic labels and no semantic-recovery claim.
+- Added standard vectors, Unicode/BOM round trips, invalid padding/UTF-8/escape cases, benign data, nested source attribution, and decoding-limit tests.
+
 ## 0.0.3 — 2026-11-10
 
 - Added UTF-8 variation-selector payloads, limited Cyrillic confusable substitution, and balanced directional-control demonstrations.
