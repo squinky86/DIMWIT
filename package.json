@@ -1,11 +1,13 @@
 {
   "name": "dimwit",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "type": "module",
   "license": "AGPL-3.0-only",
   "description": "A browser-only prompt injection demonstrator and text inspector",
-  "engines": { "node": ">=26 <27" },
+  "engines": {
+    "node": ">=26 <27"
+  },
   "scripts": {
     "prepare:site": "node scripts/prepare-site.mjs",
     "test": "node --test tests/*.test.mjs",
@@ -13,5 +15,7 @@
     "dev": "npm run prepare:site && node scripts/jekyll.mjs serve --host 127.0.0.1 --port 4000 --baseurl /DIMWIT",
     "check:site": "node scripts/check-site.mjs"
   },
-  "dependencies": { "alpinejs": "3.17.5" }
+  "dependencies": {
+    "alpinejs": "3.17.5"
+  }
 }

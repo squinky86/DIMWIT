@@ -75,6 +75,8 @@ Retain these compatible versions until parent releases allow the newer majors. D
 
 ## Review and release
 
+Optional browser regression checks use a separate tooling directory, so no browser framework ships with the application. Install `playwright` and `@axe-core/playwright` there, install Playwright Firefox, start `npm run dev`, then run `DIMWIT_BROWSER_TOOLS=/absolute/tools/package.json node tests/browser.mjs`. Set `PLAYWRIGHT_BROWSERS_PATH` for a non-default browser cache and `DIMWIT_CHROMIUM` for your Chromium executable. The script exercises every technique, output fidelity, source selection, no external requests, clipboard fallback, keyboard focus, mobile widths, docs, and axe. `DIMWIT_PREVIEW_URL` can target the deployed site.
+
 The [review checklist]({{ '/docs/review/' | relative_url }}) records verification and remaining release gates. Review the application deployed from `main`. Issues and milestone status remain open until their acceptance criteria are satisfied; development does not wait on a pull-request gate.
 
 After acceptance and a successful Pages deployment, confirm the changelog and application version, create the matching immutable version tag at the accepted commit, and publish a GitHub prerelease with its Pages link, coverage, and known limits. A tag does not deploy by itself; the tested main-branch workflow does. The release issue tracks these actions with the accepted commit and deployment evidence.

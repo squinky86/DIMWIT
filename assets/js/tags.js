@@ -18,6 +18,8 @@ export function demonstrate({ cover, payload, placement = 'append' }) {
 
 export const tagTechnique = {
   id: 'unicode-tags', label: 'Unicode tags', family: 'unicode',
+  payloadLabel: 'Text to hide', payloadHelp: 'Up to 1,024 printable ASCII characters. No newlines or emoji.',
+  description: 'Printable ASCII maps to Unicode tag characters, followed by CANCEL TAG. Copying through another application may change hidden characters. This demonstration does not call a model.',
   fields: [
     { id: 'cover', required: false }, { id: 'payload', required: true },
     { id: 'placement', required: true, options: ['append', 'prepend'] },

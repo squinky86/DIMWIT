@@ -1,8 +1,8 @@
 ---
-title: MVP review checklist
+title: Alpha verification
 permalink: /docs/review/
 ---
-# Review the 0.0.1 MVP
+# Alpha verification
 
 The first alpha was accepted for release under the owner's instruction to complete all alpha milestones. Review [the deployed application]({{ '/' | relative_url }}). [Issue #10](https://github.com/squinky86/DIMWIT/issues/10) links the release commit, successful deployment, and immutable prerelease.
 
@@ -30,6 +30,10 @@ The production build checks generated links and assets under `/DIMWIT/`, version
 Automated axe checks reported no WCAG 2 A/AA or WCAG 2.1 A/AA violations in the empty inspector, findings, generated output, four documentation pages, and 404 page in both browsers. These browser tools were installed in a temporary verification environment, not added as application dependencies. [GitHub Actions](https://github.com/squinky86/DIMWIT/actions) and the linked milestone issues record CI and deployment results.
 
 On November 10, 2026, a fresh Chromium/Firefox regression passed against the release build. An isolated Orca/Chromium session exercised keyboard-only editing, automatic preview, transfer into Inspect, revealed text, source-selection controls, and expandable explanations. Orca's speech-dispatch log confirmed the field labels, preview update, inspection region, decoded BANANA text, selection range, and explanation control. This is actual screen-reader integration verification with recorded speech output, not a human listening study. Safari and physical devices remain untested; browser viewport checks do not establish device coverage.
+
+## Subsequent alpha verification
+
+`tests/browser.mjs` exercises each available technique and its inspection results in Chromium and Firefox, including WCAG 2/2.1 A/AA axe checks, exact transfer, source selection, keyboard editing, clipboard fidelity/fallback, 320/390/768px layouts, and generated docs. The direct-technique fixtures cover all four recipes, quoted benign matches, multilingual offsets, malformed framing, and bounded repetition. Each release issue records the successful build and deployment.
 
 ## Release gates
 

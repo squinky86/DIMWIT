@@ -1,5 +1,6 @@
 import { MAX_INPUT, MAX_PAYLOAD, MAX_FINDINGS, isHidden, isTag, characterName, code, context, boundedSlice } from './text.js';
 import { analyzeTagRun } from './tags.js';
+import { directAnalyzer } from './direct.js';
 
 function describe(cp) {
   if (cp === 0x200D || cp === 0x200C) return 'Join controls are used in connected scripts and emoji. Their presence alone does not establish injection.';
@@ -52,7 +53,7 @@ export const analyzers = [{
   evidenceTypes: ['formatting', 'hidden', 'partial'],
   limits: { inputUnits: MAX_INPUT, findings: MAX_FINDINGS, decodedCharacters: MAX_PAYLOAD, recursionDepth: 0 },
   analyze: scanHidden,
-}];
+}, directAnalyzer];
 
 export function inspect(input, enabledAnalyzers = analyzers) {
   if (!input.length) return { status: 'empty', findings: [], reasons: [], checks: [], scannedUnits: 0 };
@@ -65,7 +66,9 @@ export function inspect(input, enabledAnalyzers = analyzers) {
   for (const analyzer of enabledAnalyzers) {
     try {
       const result = analyzer.analyze(text);
-      findings.push(...result.findings.map((f, index) => ({ ...f, id: `${analyzer.id}-${index}` })));
+      const available = MAX_FINDINGS - findings.length;
+      findings.push(...result.findings.slice(0, available).map((f, index) => ({ ...f, id: `${analyzer.id}-${index}` })));
+      if (result.findings.length > available) reasons.push('The combined 200-finding limit was reached. Some evidence is not displayed.');
       reasons.push(...result.reasons);
       scannedUnits = Math.min(scannedUnits, result.scannedUnits ?? text.length);
       checks.push({ label: analyzer.label, complete: !result.reasons.length });

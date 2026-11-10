@@ -54,3 +54,11 @@ Scanning stops at 50,000 units or 200 findings. An input cut never splits a vali
 ## Sources and maintenance
 
 The [Unicode Standard chapter on special characters](https://www.unicode.org/versions/Unicode17.0.0/core-spec/chapter-23/) describes tag and format characters. The generated tables retain the Unicode license. Maintainers can regenerate them with `scripts/build-unicode-data.mjs` using the official Unicode 17.0.0 `DerivedCoreProperties.txt` and `UnicodeData.txt`; normal builds use the committed tables and make no Unicode-data request.
+
+## Direct and structural text (0.0.2)
+
+The four recipes are `override`, `role`, `breakout`, and `extraction`. Their exact envelope is `[[DIMWIT:NAME]]`, newline, recipe body, newline, `[[/DIMWIT:NAME]]`. Role bodies wrap the payload in `<|im_start|>system` plus a newline and a newline plus `<|im_end|>`. Breakout bodies prepend a triple-backtick line and `</context>` line, and append `<context>` and a triple-backtick line. Override and extraction bodies are the payload itself. The unchanged cover precedes the envelope with one newline when nonempty. Payloads must be well-formed Unicode, 1–1,024 UTF-16 units, without reserved DIMWIT boundary markers. The output must fit 50,000 units. Anyone can reproduce these structures; matching does not identify their author or originating software.
+
+Independent heuristic rules surface English ignore/disregard/forget-previous-instructions phrases, print/reveal/show/repeat/disclose-system/developer-prompt phrases, selected system/developer role labels, triple-backtick fences, and context/instruction/system delimiters. Each finding names its rule and exact source range. Quotations, manuals, and source-code examples can match. Text resembling a system message does not gain privileges inside pasted content. Other wording and languages are not reliable semantic-detection targets.
+
+Missing or inconsistent supported framing produces partial evidence and an incomplete result. Tests include benign quotations, role labels, code fences, multilingual context, malformed framing, combined Unicode evidence, and repeated matches at the finding limit. All previews remain inert text.

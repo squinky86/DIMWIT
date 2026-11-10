@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.0.2 — 2026-11-10
+
+- Added instruction override, system-role impersonation, code-fence/delimiter breakout, and dummy prompt-extraction demonstrations.
+- Inspector recognizes documented literal recipe structures and shows independent lexical or structural heuristic matches with exact spans and rule names.
+- Technique-specific field labels, explanations, reset examples, and shared inert previews. Quoted instructions and ordinary documentation remain possible matches, without any privilege, intent, or model-behavior claim.
+- Added benign multilingual, malformed framing, offset, mixed-evidence, and bounded-repetition regression fixtures.
+
 ## 0.0.1 — 2026-11-10
 
 - Jekyll and Alpine.js application with separate Demonstrate and automatic Inspect workflows.
