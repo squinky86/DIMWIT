@@ -17,7 +17,6 @@ application: true
         <button type="button" @click="mode = 'demonstrate'" :aria-pressed="mode === 'demonstrate'" :class="{ active: mode === 'demonstrate' }"><span aria-hidden="true">✳</span> Demonstrate</button>
         <button type="button" @click="mode = 'inspect'" :aria-pressed="mode === 'inspect'" :class="{ active: mode === 'inspect' }"><span aria-hidden="true">⌕</span> Inspect text</button>
       </div>
-      <p class="auto-note"><span class="status-dot" aria-hidden="true"></span> Updates automatically after you pause <span class="delay-note">(0.6 s)</span></p>
     </div>
 
     <section x-show="mode === 'demonstrate'" aria-label="Demonstrate workspace" class="workspace">
