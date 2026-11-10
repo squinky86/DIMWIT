@@ -30,11 +30,11 @@ Each alpha adds a coherent technique family to both Demonstrate and Inspect wher
 
 ### Demonstrate
 
-The user selects a technique, supplies cover text or an inert demonstration instruction when the technique needs it, and sees the rendered, raw, and escaped forms. Safe built-in examples use fixed markers and dummy data. DIMWIT never sends a demonstration to a model or external service.
+Demonstrate is the default workflow, with a ready-made example. The user selects a technique and edits its fields; the preview updates after a fixed 0.6-second pause. Rendered, raw, and escaped forms share one preview area beside the input. Safe built-in examples use fixed markers and dummy data. DIMWIT never sends a demonstration to a model or external service.
 
 ### Inspect
 
-The user pastes text once and explicitly starts inspection. DIMWIT runs every supported analyzer automatically and may return several independent findings. Each finding names the observed evidence, shows its exact source span, and explains why it may matter. Unambiguous encodings may be decoded within strict size and depth limits, but DIMWIT does not attribute the text to a watermarking tool or carrier implementation.
+The user pastes text once; inspection starts automatically 0.6 seconds after typing or pasting stops. DIMWIT runs every supported analyzer and may return several independent findings beside the input. Each finding names the observed evidence and retains its exact source span, explanation, and escaped context in expandable details. Unambiguous encodings may be decoded within strict size and depth limits, but DIMWIT does not attribute the text to a watermarking tool or carrier implementation.
 
 The inspector uses these outcome states:
 
@@ -82,7 +82,7 @@ Split each later issue into implementation tasks before work starts. If an inter
 ## MVP acceptance walkthrough
 
 1. Open the Pages root and find the application, logo, Demonstrate selector, Inspector, and documentation link.
-2. Generate a safe example with the non-printing technique and compare its rendered, raw, and escaped forms.
+2. Edit the default non-printing example, wait for the live preview, and compare its rendered, raw, and escaped forms.
 3. Copy the result into Inspect without selecting a method. The inspector identifies the hidden evidence and recovers the demonstration content when possible.
 4. Paste ordinary multilingual text, emoji, legitimate format controls, malformed hidden sequences, and unsupported suspicious text. Results distinguish exact evidence from interpretation.
 5. Complete the same flows with a keyboard, at a mobile viewport, and when clipboard access fails. User-controlled content remains inert.

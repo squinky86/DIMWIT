@@ -6,18 +6,11 @@ permalink: /docs/
 
 DIMWIT {{ site.data.build.version }} is an alpha preview for demonstrating non-printing text and inspecting pasted text. It runs locally in your browser. Pasted text, generated output, and findings are not uploaded or saved.
 
-## Inspect unfamiliar text
-
-1. Open [the toolkit]({{ '/' | relative_url }}) and paste into **Text to inspect**.
-2. Choose **Inspect text**. No method selection is needed.
-3. Review each finding. Hidden tag text can reveal readable content; emoji, joiners, and directional formatting also produce explanatory findings.
-4. Choose **Select characters** to select the exact evidence in your original input. Expand **Escaped context & exact offsets** for the underlying characters.
-
-The **Hidden instruction**, **Ordinary text**, and **Emoji & formatting** examples make useful comparisons. Inspect does not invoke a model, execute pasted markup, or visit links.
-
 ## Demonstrate non-printing text
 
-Choose **Demonstrate**, leave the technique set to Unicode tags, and supply visible cover text plus the text to hide. Hidden text accepts up to 1,024 printable ASCII characters; the cover accepts Unicode. Choose whether to prepend or append, then generate.
+[The toolkit]({{ '/' | relative_url }}) opens in **Demonstrate** with a ready-made example. Edit visible cover text and the text to hide on the left; the preview on the right updates **0.6 seconds after you stop typing or pasting**. There is no Generate button or delay setting. On narrow screens, the preview sits directly below the fields.
+
+Hidden text accepts up to 1,024 printable ASCII characters; the cover accepts Unicode. Choose whether hidden text goes before or after the cover. Input methods such as Japanese composition can finish before an update runs.
 
 The output has three views:
 
@@ -25,7 +18,18 @@ The output has three views:
 - **Raw:** the actual generated text, including the invisible characters. Copy or select this field to preserve them.
 - **Escaped:** non-ASCII and control characters shown as `\u{CODEPOINT}`, `\n`, `\r`, or `\t`. This view is for reading, not for copying a working demonstration.
 
-Choose **Inspect this output** to transfer the exact result, or copy it into Inspect yourself. If clipboard access fails, DIMWIT selects the raw output and tells you to use your device’s Copy command.
+Switch between these views above the preview. **Copy text** always copies the complete original output, including invisible characters, even when Escaped is selected. **Select all** opens Raw and selects the complete output. **Exact changes & technique** expands character counts and mapping details without filling the main workspace.
+
+Choose **Inspect output** to transfer the exact result, or copy it into Inspect yourself. If clipboard access fails, DIMWIT opens Raw, selects its contents, and tells you to use your device’s Copy command. Output actions are unavailable while a new preview is pending or input is invalid.
+
+## Inspect unfamiliar text
+
+1. Choose **Inspect text** and paste into the input field. No technique selection is needed.
+2. After a 0.6-second pause, all supported checks run automatically and the summary appears beside your input.
+3. Read revealed text and the evidence for each finding. **Select** highlights the exact source range in your input. **Explanation, context & exact offsets** expands the character explanation, escaped context, and numeric ranges.
+4. Use **View escaped input** when you want to examine the complete input within the scan budget. Longer findings and previews scroll within their panels; content is not silently omitted.
+
+The **Hidden instruction**, **Ordinary text**, and **Emoji & formatting** examples update immediately. Emoji, joiners, and directional formatting can legitimately produce findings. Inspect does not invoke a model, execute pasted markup, or visit links.
 
 ## Reading the results
 
@@ -33,12 +37,12 @@ Choose **Inspect this output** to transfer the exact result, or copy it into Ins
 | --- | --- |
 | Hidden characters found | Supported non-printing or formatting characters are present. Review the individual evidence. |
 | Revealed content | Printable tag characters were decoded. This reveals content, not intent or origin. |
-| Formatting indicator | A character has a formatting use, such as an emoji variation selector or text joiner. |
+| Formatting | A character has a formatting use, such as an emoji variation selector or text joiner. |
 | Review needed | A sequence is partial, unsupported, or malformed. |
 | No supported indicators found | The implemented checks finished without findings. Ordinary-language injection and other encodings remain outside this alpha’s coverage. |
 | Inspection incomplete | A budget, unsupported tag sequence, unterminated tag run, or analyzer error prevented full inspection. Available evidence is still shown. |
 
-Changing pasted text clears its old results, so findings always correspond to an explicitly inspected input. Clear resets the input; switching workflows keeps your work in memory until you reload or close the page.
+Changing text immediately clears its old output or findings while the next update waits for your pause. Clear cancels pending inspection and empties the input; Reset example restores the default demonstration immediately. Switching workflows keeps your work in memory until you reload or close the page. Automatic updates do not move your keyboard focus.
 
 ## Limits and privacy
 

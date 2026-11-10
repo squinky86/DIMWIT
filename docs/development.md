@@ -32,10 +32,12 @@ Open `http://127.0.0.1:4000/DIMWIT/`. On distributions that name the Bundler exe
 | `assets/js/inspector.js` | Automatic analyzer dispatch, findings, completion status |
 | `assets/js/text.js` | Character classification, escaping, positions, limits |
 | `assets/js/unicode-data.js` | Generated and pinned Unicode names and coverage |
-| `assets/js/app.js` | Alpine component, fields, view state, clipboard fallback |
+| `assets/js/toolkit.js` | Interaction state, 600 ms updates, composition, clipboard fallback |
+| `assets/js/app.js` | Alpine component registration and startup |
 | `index.html` and `assets/css/site.css` | Application markup and visual presentation |
 | `_layouts` and `docs` | Generated documentation and shared navigation |
 | `tests/analysis.test.mjs` | Round trips, Unicode fixtures, limits, failures, offsets |
+| `tests/toolkit.test.mjs` | Debounce timing, stale results, resets, composition, clipboard races |
 
 To add a technique, define pure functions and relevant demonstration fields, add its supported analyzer to the registry, and provide positive, benign, malformed, and budget fixtures. Inspect must remain independent of the selected demonstration. Never pass pasted or decoded text into HTML or JavaScript execution sinks.
 

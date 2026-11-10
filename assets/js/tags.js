@@ -17,7 +17,7 @@ export function demonstrate({ cover, payload, placement = 'append' }) {
 }
 
 export const tagTechnique = {
-  id: 'unicode-tags', label: 'Non-printing text · Unicode tags', family: 'unicode',
+  id: 'unicode-tags', label: 'Unicode tags', family: 'unicode',
   fields: [
     { id: 'cover', required: false }, { id: 'payload', required: true },
     { id: 'placement', required: true, options: ['append', 'prepend'] },

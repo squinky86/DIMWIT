@@ -8,18 +8,22 @@ This build is an alpha preview developed directly on `main`. Review [the deploye
 
 ## Try the application
 
-1. Open [the toolkit]({{ '/' | relative_url }}). Inspect is usable immediately, without selecting a demonstration technique.
-2. Load **Hidden instruction**, inspect it, and read the revealed content. Select its source span and expand escaped context.
-3. Load **Ordinary text**, then **Emoji & formatting**. Compare no findings with legitimate formatting evidence.
-4. Switch to Demonstrate, change the hidden text, generate it, and compare the rendered, raw, and escaped output. Inspect the result directly and through copy/paste.
-5. Try empty cover text, unsupported hidden text such as emoji, repeated injection, and a partial tag sequence. Input must remain available after errors.
-6. Navigate by keyboard, try a narrow viewport, and visit the generated docs, source, and license links.
+1. Open [the toolkit]({{ '/' | relative_url }}). Demonstrate should be selected with a ready-made example and live preview beside the fields.
+2. Change the hidden text and pause for 0.6 seconds. Compare Rendered, Raw, and Escaped; copy the original from any view. No Generate button or delay selector is needed.
+3. Choose **Inspect output**, or paste into Inspect. Findings should update automatically; source selection and expanded explanations, context, and offsets must match the original input.
+4. Load **Ordinary text**, then **Emoji & formatting**. Compare no findings with legitimate formatting evidence.
+5. Type rapidly, compose multilingual text, clear/reset during the delay, and try invalid or oversized input. Old results must disappear immediately, and invalid or pending output must not be copyable.
+6. Navigate by keyboard without losing focus during automatic updates; test the compact desktop layout, stacked mobile panels, clipboard fallback, and documentation links.
 
 ## Verification record
 
 Core automated tests cover 24 cases: literal vectors, all printable ASCII, exact cover preservation, Unicode offsets and display boundaries, repeated marks, benign multilingual and emoji input, malformed and reserved tags, output and inspection limits, partial scanning, analyzer failures, and inert decoded strings.
 
 Eight dependency-report tests cover issue creation, no-update behavior, duplicate and closed-report suppression, preserving owner notes, handling edited report markers, stable report fingerprints, and Action pin validation.
+
+Twelve interaction tests cover the default demonstration, the fixed 600 ms delay, successive edits, stale-result clearing, composition, reset and example cancellation, independent workflows, exact transfer to inspection, clipboard fallback and late failures, and timer cleanup.
+
+The compact GUI was checked in Chromium 157 and Firefox 159: the default workspace fits at 1366×768 without page scrolling, and both workflows fit 320-, 390-, and 768-pixel widths without horizontal overflow. Browser checks cover automatic updates, input composition, preserved focus, all three output views, exact source selection, actual clipboard preservation in Chromium, denied-clipboard selection in both browsers, malformed and oversized input, and generated docs. Desktop and mobile accessibility checks found no WCAG 2 A/AA or 2.1 A/AA violations in the tested application states.
 
 The production build checks generated links and assets under `/DIMWIT/`, version labels, and exclusion of source-only files. Chromium 157 and Firefox 159 browser checks on November 10, 2026 passed the main workflows, exact text selection, stale-result clearing, inert decoded markup, clipboard denial and manual-copy fallback, input limits, 320/390-pixel layouts, keyboard-only inspection, and all generated documentation routes. Chromium also passed an actual clipboard write/read round trip with hidden characters preserved. No external requests or browser script errors were observed in those flows.
 

@@ -8,9 +8,9 @@ DIMWIT is a static Jekyll application with Alpine.js interactions. It has two re
 
 The project URL is `https://squinky86.github.io/DIMWIT/`. Its root serves the application. Jekyll generates documentation at `/DIMWIT/docs/` with reciprocal navigation, shared layouts, and the same SVG logo and compact icon as the README. All assets and links respect the `/DIMWIT` base path. Jekyll provides the [layouts, includes, and static asset structure](https://jekyllrb.com/docs/structure/).
 
-Demonstrate contains the technique selector. Each technique declares the fields and options its example needs; some accept cover text and an inserted instruction, while others transform selected text directly. The interface shows rendered, raw, and escaped output and offers a copy action.
+Demonstrate is the default workflow and opens with a generated example. It contains the technique selector. Each technique declares the fields and options its example needs; some accept cover text and an inserted instruction, while others transform selected text directly. Fields and live results occupy two equal columns on desktop and stack on narrow screens. Rendered, raw, and escaped output share one preview area; exact technical details expand on demand.
 
-Inspect has no technique selector. A single paste and explicit inspection action runs all enabled analyzers, so users do not need to know how suspicious text was constructed. Findings remain independent when several signals occur in one input.
+Inspect has no technique selector. A paste or edit runs all enabled analyzers after 600 ms of inactivity, so users do not need to know how suspicious text was constructed. Demonstration generation uses the same fixed delay. Each workflow has its own cancellable timer; subsequent input restarts it, composition waits for completion, and reset/example actions cancel pending work. Stale results disappear immediately, and output actions are disabled until the next valid result. Automatic updates preserve keyboard focus. Findings remain independent when several signals occur in one input.
 
 ## Technique and analyzer modules
 
@@ -18,7 +18,7 @@ Pure JavaScript modules implement demonstrations and analyzers independently of 
 
 Every finding includes a source span, observed evidence, explanatory text, and decoded or transformed content only when the operation is unambiguous. Future nested decoding will record the transformation path and distinguish original-input spans from decoded-content spans. Evidence must distinguish JavaScript string offsets, Unicode code points, and user-perceived grapheme clusters.
 
-The 0.0.1 implementation uses `tags.js` for the Unicode-tag demonstration, `inspector.js` for automatic analyzer dispatch, and `text.js` plus a pinned Unicode 17 data file for evidence and limits. Descriptors declare stable IDs, fields, capabilities, evidence types, and budgets. Source ranges are end-exclusive UTF-16 offsets; separate code-point ranges are explicitly not grapheme positions. Nested decoding and grapheme visualization remain future work, not MVP capabilities.
+The 0.0.1 implementation uses `tags.js` for the Unicode-tag demonstration, `inspector.js` for automatic analyzer dispatch, and `text.js` plus a pinned Unicode 17 data file for evidence and limits. `toolkit.js` owns interaction state and scheduling; `app.js` registers it with Alpine. Descriptors declare internal IDs, fields, capabilities, evidence types, and budgets. Source ranges are end-exclusive UTF-16 offsets; separate code-point ranges are explicitly not grapheme positions. Nested decoding and grapheme visualization remain future work, not MVP capabilities.
 
 Analyzers return findings plus completion status. Size or depth limits, unsupported syntax, and analyzer failures produce an incomplete result rather than a clean result. No numeric confidence score is shown without a labeled and calibrated evaluation corpus.
 

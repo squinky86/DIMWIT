@@ -1,15 +1,12 @@
 ---
 layout: default
-title: Reveal the text you cannot see
+title: Make the invisible visible
 application: true
 ---
 <main id="main" class="app-shell">
-  <section class="hero" aria-labelledby="headline">
-    <div><p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> A little suspicious. A lot more visible.</p>
-      <h1 id="headline">What’s hiding<br>in your <span>text?</span></h1>
-      <p class="hero-copy">Reveal invisible characters. Unpack hidden instructions.<br class="desktop-break"> See how a prompt can say more than it shows.</p>
-    </div>
-    <div class="hero-note"><img src="{{ '/assets/images/dimwit-icon.svg' | relative_url }}" alt="" width="100" height="100"><p>Not the brightest bulb.<br><strong>Still spots the invisible stuff.</strong></p></div>
+  <section class="intro" aria-labelledby="headline">
+    <div><h1 id="headline">Make the invisible <span>visible.</span></h1><p>Hide a little text. See exactly what’s there.</p></div>
+    <p class="privacy"><span class="status-dot" aria-hidden="true"></span> In your browser. No text uploaded.</p>
   </section>
 
   <noscript><p class="notice">JavaScript is needed to inspect text in your browser. <a href="{{ '/docs/' | relative_url }}">Read the documentation</a> for coverage and examples.</p></noscript>
@@ -17,71 +14,77 @@ application: true
   <div x-data="toolkit" x-cloak>
     <div class="workspace-top">
       <div class="mode-switch" role="group" aria-label="Toolkit mode">
-        <button type="button" @click="mode = 'inspect'" :aria-pressed="mode === 'inspect'" :class="{ active: mode === 'inspect' }"><span aria-hidden="true">⌕</span> Inspect text</button>
         <button type="button" @click="mode = 'demonstrate'" :aria-pressed="mode === 'demonstrate'" :class="{ active: mode === 'demonstrate' }"><span aria-hidden="true">✳</span> Demonstrate</button>
+        <button type="button" @click="mode = 'inspect'" :aria-pressed="mode === 'inspect'" :class="{ active: mode === 'inspect' }"><span aria-hidden="true">⌕</span> Inspect text</button>
       </div>
-      <p class="privacy"><span class="status-dot" aria-hidden="true"></span> In your browser. No text uploaded.</p>
+      <p class="auto-note"><span class="status-dot" aria-hidden="true"></span> Updates automatically after you pause <span class="delay-note">(0.6 s)</span></p>
     </div>
 
-    <section x-show="mode === 'inspect'" aria-labelledby="inspect-title" class="workspace">
-      <div class="panel main-panel">
-        <div class="panel-heading"><div><p class="eyebrow">01 / Look closer</p><h2 id="inspect-title">Paste it. Inspect it.</h2></div><span class="chip">Automatic checks</span></div>
-        <p class="panel-intro">Start with a prompt, a message, or any text you want to examine.</p>
-        <label for="inspect-input">Text to inspect</label>
-        <textarea id="inspect-input" x-ref="inspectInput" x-model="input" @input="clearInspection" placeholder="Paste your text here. Even if it looks ordinary." rows="8" spellcheck="false" autocomplete="off" aria-describedby="inspect-help"></textarea>
-        <div class="field-meta"><span id="inspect-help">50,000 UTF-16 units per scan. Larger input gets a partial scan.</span><span x-text="input.length.toLocaleString() + ' units'"></span></div>
-        <div class="actions"><button class="button primary" type="button" @click="runInspection">Inspect text <span aria-hidden="true">↗</span></button><button class="button quiet" type="button" @click="resetInspection" :disabled="!input">Clear</button></div>
-        <p class="sample-row">Try an example: <button type="button" @click="loadExample('hidden')">Hidden instruction</button><button type="button" @click="loadExample('ordinary')">Ordinary text</button><button type="button" @click="loadExample('emoji')">Emoji &amp; formatting</button></p>
-
-        <section class="results" x-show="result !== null" aria-labelledby="results-title">
-          <div class="results-heading"><h3 id="results-title" x-text="resultTitle"></h3><span class="chip" x-show="findingCount" x-text="findingCount + (findingCount === 1 ? ' finding' : ' findings')"></span></div>
-          <p x-text="resultDescription"></p>
-          <template x-if="result && result.reasons.length"><ul class="notice"><template x-for="reason in result.reasons" :key="reason"><li x-text="reason"></li></template></ul></template>
-          <div class="finding-list">
-            <template x-for="finding in (result ? result.findings : [])" :key="finding.id">
-              <article class="finding" :class="'finding-' + finding.kind">
-                <div class="finding-heading"><h4 x-text="finding.title"></h4><span class="finding-tag" x-text="findingLabel(finding.kind)"></span></div>
-                <p x-text="finding.explanation"></p>
-                <div class="decoded" x-show="finding.decoded"><span class="eyebrow">Revealed text</span><pre class="isolated" dir="auto" x-text="finding.decoded"></pre></div>
-                <p class="evidence"><code x-text="finding.codepoints"></code><span x-text="finding.count + ' code point' + (finding.count === 1 ? '' : 's')"></span><button type="button" @click="selectFinding(finding)" x-text="'Select characters ' + (finding.pointStart + 1) + '–' + finding.pointEnd"></button></p>
-                <details><summary>Escaped context &amp; exact offsets</summary><pre class="escaped" x-text="finding.context"></pre><p x-text="'UTF-16 range [' + finding.start + ', ' + finding.end + '); code-point range [' + finding.pointStart + ', ' + finding.pointEnd + '). End offsets are exclusive.'"></p></details>
-              </article>
-            </template>
-          </div>
-          <details x-show="input.length"><summary>View escaped input</summary><pre class="escaped" x-text="escapedInput"></pre><p x-show="input.length > 50000">Preview limited to the scan budget. The original input remains in the field above.</p></details>
-          <p class="coverage-result" x-show="result && result.checks.length">Checks: <span x-text="checkSummary"></span></p>
-        </section>
-      </div>
-      <aside class="sidebar">
-        <div class="side-card mint"><p class="eyebrow">Small toolkit. Clear evidence.</p><h3>Looks normal.<br>Reads differently.</h3><p>Hidden Unicode can carry text that your eyes skip over. DIMWIT makes those characters and their locations visible.</p><div class="tiny-example"><span>Visible</span><strong>Hello, world.</strong><span>Behind the text</span><code>U+E0053 U+E0041…</code></div></div>
-        <div class="side-card"><h3>What this alpha checks</h3><ul class="check-list"><li>Hidden Unicode and format controls</li><li>Printable text in Unicode tags</li><li>Partial or unsupported tag sequences</li><li>Emoji and formatting context</li></ul><p>Ordinary-language instructions and other encodings are planned for later releases.</p><a href="{{ '/docs/format/' | relative_url }}">See coverage &amp; limits →</a></div>
-        <p class="side-note">A finding is evidence to examine. It does not establish intent. No findings does not guarantee a safe prompt.</p>
-      </aside>
-    </section>
-
-    <section x-show="mode === 'demonstrate'" aria-labelledby="demo-title" class="workspace">
-      <div class="panel main-panel">
-        <div class="panel-heading"><div><p class="eyebrow">02 / Make the invisible</p><h2 id="demo-title">A tiny hiding place.</h2></div><span class="chip">1 technique</span></div>
-        <p class="panel-intro">Add hidden text, then send the result to Inspect to see exactly what changed.</p>
-        <label for="technique">Injection technique</label><select id="technique" x-model="technique"><template x-for="method in methods" :key="method.id"><option :value="method.id" x-text="method.label"></option></template></select>
-        <label for="cover-input">Visible cover text <span class="optional">optional</span></label><textarea id="cover-input" x-model="cover" @input="clearDemo" rows="4" spellcheck="false" autocomplete="off"></textarea>
-        <label for="payload-input">Text to hide</label><textarea id="payload-input" x-model="payload" @input="clearDemo" rows="3" spellcheck="false" autocomplete="off" aria-describedby="payload-help"></textarea>
-        <p id="payload-help" class="field-help">Up to 1,024 printable ASCII characters: English letters, numbers, spaces, and punctuation. Cover text can contain any Unicode.</p>
-        <label for="placement">Place hidden text</label><select id="placement" x-model="placement" @change="clearDemo"><option value="append">After the visible text</option><option value="prepend">Before the visible text</option></select>
-        <div class="actions"><button type="button" class="button primary" @click="generate">Generate text <span aria-hidden="true">✳</span></button><button type="button" class="button quiet" @click="resetDemo">Reset example</button></div>
+    <section x-show="mode === 'demonstrate'" aria-label="Demonstrate workspace" class="workspace">
+      <section class="panel editor-panel" aria-labelledby="demo-title">
+        <div class="panel-heading"><h2 id="demo-title">Build an example</h2><span class="step-label">01 / Input</span></div>
+        <div class="field-row">
+          <div class="technique-field"><label for="technique">Injection technique</label><select id="technique" x-model="technique" @change="queueDemo"><template x-for="method in methods" :key="method.id"><option :value="method.id" x-text="method.label"></option></template></select></div>
+          <div><label for="placement">Place hidden text</label><select id="placement" x-model="placement" @change="queueDemo"><option value="append">After cover</option><option value="prepend">Before cover</option></select></div>
+        </div>
+        <label for="cover-input">Visible cover text <span class="optional">optional · any Unicode</span></label>
+        <textarea id="cover-input" x-model="cover" @input="queueDemo($event)" @compositionstart="startComposition('demo')" @compositionend="endComposition('demo')" rows="3" spellcheck="false" autocomplete="off" placeholder="What someone will see at first glance."></textarea>
+        <label for="payload-input">Text to hide</label>
+        <textarea id="payload-input" x-model="payload" @input="queueDemo($event)" @compositionstart="startComposition('demo')" @compositionend="endComposition('demo')" rows="3" spellcheck="false" autocomplete="off" aria-describedby="payload-help"></textarea>
+        <div class="field-meta"><span id="payload-help">Up to 1,024 printable ASCII characters. No newlines or emoji.</span><span x-text="payload.length.toLocaleString() + ' / 1,024'"></span></div>
         <p class="notice error" x-show="demoError" x-text="demoError" role="alert"></p>
-        <section class="results" x-show="generated !== null" aria-labelledby="output-title">
-          <div class="results-heading"><h3 id="output-title">Same look. More text.</h3><span class="chip" x-text="outputStats"></span></div>
-          <p class="field-help" x-text="addedDescription"></p>
-          <p class="field-label" id="rendered-label">Rendered text</p><pre class="rendered isolated" dir="auto" aria-labelledby="rendered-label" x-text="output"></pre>
-          <label for="raw-output">Raw text <span class="optional">selectable, including hidden characters</span></label><textarea id="raw-output" x-ref="rawOutput" :value="output" rows="3" readonly spellcheck="false"></textarea>
-          <div class="actions"><button type="button" class="button primary" @click="inspectOutput">Inspect this output →</button><button type="button" class="button secondary" @click="copyOutput">Copy text</button><button type="button" class="button quiet" @click="selectOutput">Select all</button></div>
-          <p class="field-help" x-text="copyMessage"></p>
-          <details><summary>Escaped text: see every hidden code point</summary><pre class="escaped" x-text="escapedOutput"></pre></details>
-        </section>
-      </div>
-      <aside class="sidebar"><div class="side-card lavender"><p class="eyebrow">The technique</p><h3>Text wearing an<br>invisibility cloak.</h3><p>Each printable ASCII character is mapped to its Unicode tag equivalent. The result is usually invisible in ordinary text rendering.</p><p>DIMWIT appends a tag terminator so the demo’s end can be recognized.</p><a href="{{ '/docs/format/' | relative_url }}">Read the character mapping →</a></div><div class="side-card"><h3>See it for yourself</h3><ol><li>Generate an example.</li><li>Copy it into Inspect.</li><li>Compare the revealed text with what you hid.</li></ol><p>Copying through another application may remove or change hidden characters. This demonstration does not call an AI model.</p></div></aside>
+        <div class="editor-footer"><button type="button" class="text-button" @click="resetDemo">Reset example</button><a href="{{ '/docs/format/' | relative_url }}">How this technique works ↗</a></div>
+      </section>
+
+      <section class="panel output-panel" aria-labelledby="output-title" :aria-busy="demoPending ? 'true' : 'false'">
+        <div class="panel-heading"><h2 id="output-title">Live preview</h2><span class="chip" x-text="demoPending ? 'Updating…' : generated ? 'Ready' : 'Check input'"></span></div>
+        <p class="panel-caption" x-text="generated ? generated.payloadLength + ' hidden characters · ' + outputStats : demoPending ? 'Waiting for you to finish typing…' : 'Adjust the input to create your example.'"></p>
+        <div class="view-switch" role="group" aria-label="Output view">
+          <button type="button" @click="outputView = 'rendered'" :aria-pressed="outputView === 'rendered'">Rendered</button>
+          <button type="button" @click="outputView = 'raw'" :aria-pressed="outputView === 'raw'">Raw</button>
+          <button type="button" @click="outputView = 'escaped'" :aria-pressed="outputView === 'escaped'">Escaped</button>
+        </div>
+        <div class="output-content">
+          <div class="empty-preview" x-show="!generated"><span aria-hidden="true">✳</span><p x-text="demoPending ? 'Your next preview is on its way.' : 'Your preview will appear here.'"></p></div>
+          <div x-show="generated && outputView === 'rendered'"><pre class="output-view rendered isolated" dir="auto" aria-label="Rendered output" tabindex="0" x-text="output"></pre><p class="field-help">It looks like the cover. The hidden characters are still in the text.</p></div>
+          <div x-show="generated && outputView === 'raw'"><label class="sr-only" for="raw-output">Raw output, including hidden characters</label><textarea id="raw-output" class="output-view" x-ref="rawOutput" :value="output" rows="6" readonly spellcheck="false"></textarea><p class="field-help">The complete, selectable text, including its invisible characters.</p></div>
+          <div x-show="generated && outputView === 'escaped'"><pre class="output-view escaped" aria-label="Escaped output" tabindex="0" x-text="escapedOutput"></pre><p class="field-help">Every hidden code point is visible here. Copy text preserves the original.</p></div>
+        </div>
+        <div class="actions"><button type="button" class="button primary" @click="copyOutput" :disabled="!generated || demoPending">Copy text</button><button type="button" class="button secondary" @click="inspectOutput" :disabled="!generated || demoPending">Inspect output →</button><button type="button" class="button quiet" @click="selectOutput" :disabled="!generated || demoPending">Select all</button></div>
+        <p class="copy-status" x-text="copyMessage"></p>
+        <details class="technical-details" x-show="generated"><summary>Exact changes &amp; technique</summary><p x-text="addedDescription"></p><p>Printable ASCII maps to Unicode tag characters, followed by CANCEL TAG. Copying through another application may change hidden characters. This demonstration does not call a model.</p></details>
+      </section>
     </section>
+
+    <section x-show="mode === 'inspect'" aria-label="Inspect workspace" class="workspace">
+      <section class="panel editor-panel" aria-labelledby="inspect-title">
+        <div class="panel-heading"><h2 id="inspect-title">Paste text to inspect</h2><button type="button" class="text-button" @click="resetInspection" :disabled="!input">Clear</button></div>
+        <label class="sr-only" for="inspect-input">Text to inspect</label>
+        <textarea id="inspect-input" class="inspect-input" x-ref="inspectInput" x-model="input" @input="queueInspection($event)" @compositionstart="startComposition('inspect')" @compositionend="endComposition('inspect')" placeholder="Paste a prompt, a message, or any text. Findings appear automatically." rows="12" spellcheck="false" autocomplete="off" aria-describedby="inspect-help"></textarea>
+        <div class="field-meta"><span id="inspect-help">50,000 UTF-16 units per scan. Larger input gets a partial scan.</span><span x-text="input.length.toLocaleString() + ' units'"></span></div>
+        <div class="sample-row"><span>Try:</span><button type="button" @click="loadExample('hidden')">Hidden instruction</button><button type="button" @click="loadExample('ordinary')">Ordinary text</button><button type="button" @click="loadExample('emoji')">Emoji &amp; formatting</button></div>
+        <details class="input-details"><summary>View escaped input</summary><pre class="escaped" tabindex="0" aria-label="Escaped input" x-text="escapedInput"></pre><p class="field-help" x-show="input.length > 50000">Preview limited to the scan budget. Your complete input stays in the field.</p></details>
+      </section>
+
+      <section class="panel inspection-panel" aria-labelledby="results-title" :aria-busy="inspectPending ? 'true' : 'false'">
+        <div class="panel-heading"><h2 id="results-title" x-text="resultTitle"></h2><span class="chip" x-show="findingCount" x-text="findingCount + (findingCount === 1 ? ' finding' : ' findings')"></span></div>
+        <p class="panel-caption" x-text="resultDescription"></p>
+        <template x-if="result && result.reasons.length"><ul class="notice"><template x-for="reason in result.reasons" :key="reason"><li x-text="reason"></li></template></ul></template>
+        <div class="empty-inspection" x-show="!result || result.status === 'empty'"><span aria-hidden="true">⌕</span><p>Invisible characters. Visible evidence.</p></div>
+        <div class="finding-list" x-show="findingCount" tabindex="0" role="region" aria-label="Inspection findings">
+          <template x-for="finding in (result ? result.findings : [])" :key="finding.id">
+            <article class="finding" :class="'finding-' + finding.kind">
+              <div class="finding-heading"><h3 x-text="finding.title"></h3><span class="finding-tag" x-text="findingLabel(finding.kind)"></span></div>
+              <div class="decoded" x-show="finding.decoded"><span class="sr-only">Revealed text</span><pre class="isolated" dir="auto" tabindex="0" aria-label="Revealed text" x-text="finding.decoded"></pre></div>
+              <div class="evidence"><code x-text="finding.codepoints"></code><span x-text="finding.count + ' code point' + (finding.count === 1 ? '' : 's')"></span><button type="button" class="text-button" @click="selectFinding(finding)" x-text="'Select ' + (finding.pointStart + 1) + '–' + finding.pointEnd"></button></div>
+              <details><summary>Explanation, context &amp; exact offsets</summary><p x-text="finding.explanation"></p><pre class="escaped" tabindex="0" aria-label="Escaped finding context" x-text="finding.context"></pre><p x-text="'UTF-16 range [' + finding.start + ', ' + finding.end + '); code-point range [' + finding.pointStart + ', ' + finding.pointEnd + '). End offsets are exclusive.'"></p></details>
+            </article>
+          </template>
+        </div>
+        <p class="coverage-result" x-show="result && result.checks.length">Checks: <span x-text="checkSummary"></span></p>
+      </section>
+    </section>
+    <p class="scope-note">This alpha reveals hidden Unicode and tag text. Findings do not establish intent; no findings does not establish safety. <a href="{{ '/docs/format/' | relative_url }}">Coverage &amp; limits ↗</a></p>
     <p class="sr-only" role="status" aria-live="polite" aria-atomic="true" x-text="announcement"></p>
   </div>
 </main>
