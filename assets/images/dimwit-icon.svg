@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" role="img" aria-labelledby="dimwit-icon-title dimwit-icon-desc">
+  <title id="dimwit-icon-title">DIMWIT mascot</title>
+  <desc id="dimwit-icon-desc">A pleasantly confused yellow lightbulb with mismatched eyes, a tiny tongue, a mint screw cap, and a question mark where a bright idea should be.</desc>
+  <circle cx="96" cy="96" r="94" fill="#fff8e8"/>
+  <g stroke="#29253d" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M47 46 37 38M31 73 18 70M130 42 137 31" fill="none"/>
+    <path d="M73 141c0-15-8-20-16-30-9-10-14-21-14-35 0-29 22-51 51-51s51 22 51 51c0 14-5 25-14 35-8 10-16 15-16 30Z" fill="#ffcf57"/>
+    <path d="M58 69c2-13 12-24 24-27" fill="none" stroke="#fff0b5" stroke-width="7"/>
+    <path d="m72 63 15 2m20-8 14-4" fill="none"/>
+    <ellipse cx="77" cy="81" rx="11" ry="13" fill="#fffdf5"/>
+    <ellipse cx="113" cy="77" rx="10" ry="11" fill="#fffdf5"/>
+    <path d="M93 96c5 5 11 6 17 2l-1 10c-2 6-9 7-13 2Z" fill="#29253d"/>
+    <path d="M98 105c3-1 6-1 9 0l-1 5c-2 3-5 3-7 0Z" fill="#ff8ca2" stroke="none"/>
+    <path d="m79 125 9-9 10 11 10-10" fill="none" stroke-width="3"/>
+    <path d="M73 137h42v18c0 6-5 10-10 10H83c-5 0-10-4-10-10Z" fill="#80d7c3"/>
+    <path d="m75 146 38-4m-38 13 38-4M85 166v8h18v-8" fill="none"/>
+    <path d="M151 65c-1-7 3-12 10-12 7 0 11 4 11 10 0 7-10 8-10 16" fill="none" stroke="#7961a8"/>
+  </g>
+  <g fill="#29253d">
+    <circle cx="81" cy="84" r="4.5"/>
+    <circle cx="110" cy="74" r="4"/>
+  </g>
+  <circle cx="162" cy="90" r="3.5" fill="#7961a8"/>
+  <ellipse cx="62" cy="99" rx="6" ry="3.5" fill="#eea85b"/>
+  <ellipse cx="123" cy="96" rx="6" ry="3.5" fill="#eea85b"/>
+</svg>
