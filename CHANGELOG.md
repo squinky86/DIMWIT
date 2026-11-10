@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.6 — 2026-11-10
+
+- Added ten resettable local scenario walkthroughs covering every implemented family: direct roles, email, web source, document/code comments, retrieved context, fake tool results, proposed memory changes, dummy-data exfiltration, text evasion, and layered retrieved templates.
+- Added explicit trusted/untrusted/injected boundaries, security objectives, observable evidence, external assumptions, and benign comparisons. All outcomes are illustrative; no model, tool, remote content, or destination is invoked.
+- Scenarios load exact source into Demonstrate or Inspect, with inert rendered/raw/escaped views and supported decoded-layer evidence.
+- Kept unsupported codec and data-attribute names out of interface labels, preserving their original text in escaped source evidence.
+- Completed alpha documentation, release tracking, and cross-family regression/browser/accessibility checks. Beta acceptance and v0.1.0 remain separate.
+
 ## 0.0.5 — 2026-11-10
 
 - Added inert HTML/code-comment, metadata/attribute, hidden/template/noscript, Markdown link/image/reference, and active-source demonstrations with explicit trust boundaries.

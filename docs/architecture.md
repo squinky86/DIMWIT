@@ -12,6 +12,8 @@ Demonstrate is the default workflow and opens with a generated example. It conta
 
 Inspect has no technique selector. A paste or edit runs all enabled analyzers after 600 ms of inactivity, so users do not need to know how suspicious text was constructed. Demonstration generation uses the same fixed delay. Each workflow has its own cancellable timer; subsequent input restarts it, composition waits for completion, and reset/example actions cancel pending work. Stale results disappear immediately, and output actions are disabled until the next valid result. Automatic updates preserve keyboard focus. Findings remain independent when several signals occur in one input.
 
+Scenarios is a third, local workflow. Fixed definitions identify a trusted task, untrusted source, injected material, objective, observable evidence and external assumptions. Each has a benign comparison. Loading into Demonstrate copies the recipe fields; loading into Inspect copies the exact generated source. Destination timers are cancelled, and no model, network source, persistent memory or external tool is invoked. Outcomes are illustrative.
+
 ## Technique and analyzer modules
 
 Pure JavaScript modules implement demonstrations and analyzers independently of Alpine and the DOM. A module declares a stable internal ID, label, technique family, required demonstration fields, capabilities, evidence types, limits, and optional demonstration and analysis functions. Internal IDs support tests and documentation; they are not claims about which external tool created pasted text.
@@ -36,7 +38,7 @@ Render all user-controlled and decoded content as text. Never render pasted HTML
 
 ## Technique families
 
-The alpha releases add these families:
+The alpha releases implement these families:
 
 - Non-printing text, including the prototype-inspired initial demonstration.
 - Direct and structural injection, including instruction overrides, role impersonation, delimiter breakouts, and extraction requests.

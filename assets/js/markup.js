@@ -104,7 +104,7 @@ export function scanMarkup(text) {
           const a = start + head[0].length + match.index, b = a + match[0].length;
           const valueIndex = match[2] !== undefined ? 2 : match[3] !== undefined ? 3 : match[4] !== undefined ? 4 : null;
           if (['content', 'title', 'alt', 'aria-label'].includes(name) || name.startsWith('data-')) {
-            addSource(a, b, 'Metadata or text attribute', `markup:attribute:${name}`);
+            addSource(a, b, 'Metadata or text attribute', `markup:attribute:${name.startsWith('data-') ? 'data-*' : name}`);
             if (valueIndex) instructions(start + head[0].length + match.indices[valueIndex][0], start + head[0].length + match.indices[valueIndex][1], 'attribute value');
           }
           if (['href', 'src', 'action', 'formaction'].includes(name)) addSource(a, b, 'Source destination', 'markup:destination');

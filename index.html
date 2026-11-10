@@ -16,8 +16,36 @@ application: true
       <div class="mode-switch" role="group" aria-label="Toolkit mode">
         <button type="button" @click="mode = 'demonstrate'" :aria-pressed="mode === 'demonstrate'" :class="{ active: mode === 'demonstrate' }"><span aria-hidden="true">✳</span> Demonstrate</button>
         <button type="button" @click="mode = 'inspect'" :aria-pressed="mode === 'inspect'" :class="{ active: mode === 'inspect' }"><span aria-hidden="true">⌕</span> Inspect text</button>
+        <button type="button" @click="mode = 'scenarios'" :aria-pressed="mode === 'scenarios'" :class="{ active: mode === 'scenarios' }">Scenarios</button>
       </div>
     </div>
+
+    <section x-show="mode === 'scenarios'" aria-label="Scenario workspace" class="workspace">
+      <section class="panel editor-panel" aria-labelledby="scenario-title">
+        <div class="panel-heading"><h2 id="scenario-title">Explore a scenario</h2><button type="button" class="text-button" @click="resetScenario">Reset scenario</button></div>
+        <label for="scenario">Scenario</label><select id="scenario" x-model="scenarioId" @change="resetScenario"><template x-for="scenario in scenarios" :key="scenario.id"><option :value="scenario.id" x-text="scenario.label"></option></template></select>
+        <div class="view-switch scenario-comparison" role="group" aria-label="Scenario comparison"><button type="button" @click="scenarioComparison = 'injected'" :aria-pressed="scenarioComparison === 'injected'">Injected example</button><button type="button" @click="scenarioComparison = 'benign'" :aria-pressed="scenarioComparison === 'benign'">Benign comparison</button></div>
+        <dl class="scenario-boundaries">
+          <dt>Trusted task</dt><dd x-text="currentScenario.trusted"></dd>
+          <dt>Untrusted content</dt><dd x-text="currentScenario.untrusted"></dd>
+          <dt x-text="scenarioComparison === 'injected' ? 'Injected material' : 'Benign material'"></dt><dd class="isolated" dir="auto" x-text="scenarioComparison === 'injected' ? currentScenario.injected : currentScenario.benign.payload"></dd>
+          <dt>Security objective</dt><dd x-text="currentScenario.objective"></dd>
+        </dl>
+        <details><summary>Observable evidence &amp; external assumptions</summary><p x-text="currentScenario.observable"></p><p x-text="currentScenario.external"></p></details>
+        <p class="field-help">Illustrative only. No attack is run and no outcome is measured. All values are fictional; no model, tool, or destination is invoked.</p>
+      </section>
+      <section class="panel output-panel" aria-labelledby="scenario-output-title">
+        <div class="panel-heading"><h2 id="scenario-output-title">Scenario source</h2><span class="chip" x-text="scenarioComparison === 'injected' ? 'Injected example' : 'Benign comparison'"></span></div>
+        <p class="panel-caption" x-text="currentScenario.label"></p>
+        <div class="view-switch" role="group" aria-label="Scenario source view"><button type="button" @click="scenarioView = 'rendered'" :aria-pressed="scenarioView === 'rendered'">Rendered</button><button type="button" @click="scenarioView = 'raw'" :aria-pressed="scenarioView === 'raw'">Raw</button><button type="button" @click="scenarioView = 'escaped'" :aria-pressed="scenarioView === 'escaped'">Escaped</button></div>
+        <pre x-show="scenarioView === 'rendered'" class="output-view isolated" dir="auto" tabindex="0" aria-label="Rendered scenario text" x-text="scenarioText"></pre>
+        <div x-show="scenarioView === 'raw'"><label class="sr-only" for="scenario-source">Raw scenario source</label><textarea id="scenario-source" class="output-view" readonly :value="scenarioText" spellcheck="false"></textarea></div>
+        <pre x-show="scenarioView === 'escaped'" class="output-view escaped" tabindex="0" aria-label="Escaped scenario source" x-text="escaped(scenarioText)"></pre>
+        <div class="actions"><button type="button" class="button primary" @click="inspectScenario">Inspect scenario</button><button type="button" class="button secondary" @click="loadScenarioDemo">Load in Demonstrate</button></div>
+        <p class="field-help">Inspect shows supported decoded layers and source spans. Benign examples may share the same formatting or structural findings.</p>
+        <p><a href="{{ '/docs/scenarios/' | relative_url }}">Scenario walkthroughs ↗</a></p>
+      </section>
+    </section>
 
     <section x-show="mode === 'demonstrate'" aria-label="Demonstrate workspace" class="workspace">
       <section class="panel editor-panel" aria-labelledby="demo-title">
@@ -30,7 +58,7 @@ application: true
         <label x-show="hasField('cover')" for="cover-input"><span x-text="currentMethod.coverLabel || 'Visible cover text'"></span> <span class="optional">optional · any Unicode</span></label>
         <textarea x-show="hasField('cover')" id="cover-input" x-model="cover" @input="queueDemo($event)" @compositionstart="startComposition('demo')" @compositionend="endComposition('demo')" rows="3" spellcheck="false" autocomplete="off" placeholder="What someone will see at first glance."></textarea>
         <label for="payload-input" x-text="currentMethod.payloadLabel"></label>
-        <textarea id="payload-input" x-model="payload" @input="queueDemo($event)" @compositionstart="startComposition('demo')" @compositionend="endComposition('demo')" rows="3" spellcheck="false" autocomplete="off" aria-describedby="payload-help"></textarea>
+        <textarea x-ref="payloadInput" id="payload-input" x-model="payload" @input="queueDemo($event)" @compositionstart="startComposition('demo')" @compositionend="endComposition('demo')" rows="3" spellcheck="false" autocomplete="off" aria-describedby="payload-help"></textarea>
         <div class="field-meta"><span id="payload-help" x-text="currentMethod.payloadHelp"></span><span x-text="payload.length.toLocaleString() + ' / 1,024'"></span></div>
         <p class="notice error" x-show="demoError" x-text="demoError" role="alert"></p>
         <details x-show="currentMethod.trustedInstruction"><summary>Trust boundary in this example</summary><p><strong>Trusted task:</strong> <span x-text="currentMethod.trustedInstruction"></span></p><p>The output is untrusted source. The inserted instruction is the payload field above. Outcomes are illustrative; no model or external target is invoked.</p></details>

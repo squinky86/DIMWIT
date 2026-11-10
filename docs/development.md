@@ -29,7 +29,13 @@ Open `http://127.0.0.1:4000/DIMWIT/`. Ensure `ruby` and `bundle` on your `PATH` 
 | Path | Responsibility |
 | --- | --- |
 | `assets/js/tags.js` | Printable ASCII transformation and bounded tag decoding |
-| `assets/js/inspector.js` | Automatic analyzer dispatch, findings, completion status |
+| `assets/js/direct.js` | Direct recipes and heuristic instruction/structure rules |
+| `assets/js/unicode.js` | Selector recovery, confusables, normalization, spacing and bidi pairing |
+| `assets/js/encoding.js` | Strict codecs, candidate discovery and evasion examples |
+| `assets/js/markup.js` | Inert source generation and bounded lexical source inspection |
+| `assets/js/evidence.js` | Shared source-span and evidence collection |
+| `assets/js/techniques.js` and `assets/js/scenarios.js` | Technique registry and fixed scenario definitions |
+| `assets/js/inspector.js` | Automatic analyzer dispatch, bounded decoded-layer queue, findings and completion status |
 | `assets/js/text.js` | Character classification, escaping, positions, limits |
 | `assets/js/unicode-data.js` | Generated and pinned Unicode names and coverage |
 | `assets/js/toolkit.js` | Interaction state, 600 ms updates, composition, clipboard fallback |
@@ -75,7 +81,7 @@ Retain these compatible versions until parent releases allow the newer majors. D
 
 ## Review and release
 
-Optional browser regression checks use a separate tooling directory, so no browser framework ships with the application. Install `playwright` and `@axe-core/playwright` there, install Playwright Firefox, start `npm run dev`, then run `DIMWIT_BROWSER_TOOLS=/absolute/tools/package.json node tests/browser.mjs`. Set `PLAYWRIGHT_BROWSERS_PATH` for a non-default browser cache and `DIMWIT_CHROMIUM` for your Chromium executable. The script exercises every technique, output fidelity, source selection, no external requests, clipboard fallback, keyboard focus, mobile widths, docs, and axe. `DIMWIT_PREVIEW_URL` can target the deployed site.
+Optional browser regression checks use a separate tooling directory, so no browser framework ships with the application. Install `playwright` and `@axe-core/playwright` there, install Playwright Firefox, start `npm run dev`, then run `DIMWIT_BROWSER_TOOLS=/absolute/tools/package.json node tests/browser.mjs`. Set `PLAYWRIGHT_BROWSERS_PATH` for a non-default browser cache and `DIMWIT_CHROMIUM` for your Chromium executable. The script exercises every technique and both comparisons of each scenario, output fidelity, source selection, no external requests, clipboard fallback, keyboard focus, mobile widths, docs, and axe. `DIMWIT_PREVIEW_URL` can target the deployed site.
 
 The [review checklist]({{ '/docs/review/' | relative_url }}) records verification and remaining release gates. Review the application deployed from `main`. Issues and milestone status remain open until their acceptance criteria are satisfied; development does not wait on a pull-request gate.
 

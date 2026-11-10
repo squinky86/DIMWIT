@@ -66,3 +66,11 @@ test('source scanning reports incomplete when comment findings exhaust the budge
   assert.equal(inspect('<br>'.repeat(500)).status, 'none');
   assert.equal(inspect('<br>'.repeat(501)).status, 'incomplete');
 });
+
+test('user-controlled data attribute names stay in escaped evidence, not labels', () => {
+  const result = scanMarkup('<div data-\u202Ename="hello">text</div>');
+  const finding = result.findings.find(f => f.rule === 'markup:attribute:data-*');
+  assert.ok(finding);
+  assert.doesNotMatch(finding.rule, /\u202E/);
+  assert.match(finding.context, /202E/);
+});

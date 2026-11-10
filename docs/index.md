@@ -22,6 +22,10 @@ Switch between these views above the preview. **Copy text** always copies the co
 
 Choose **Inspect output** to transfer the exact result, or copy it into Inspect yourself. If clipboard access fails, DIMWIT opens Raw, selects its contents, and tells you to use your device’s Copy command. Output actions are unavailable while a new preview is pending or input is invalid.
 
+## Explore a scenario
+
+Choose **Scenarios** for ten local walkthroughs across all technique families. Compare the injected and benign material, read the trusted task and untrusted-source boundaries, and load the selected text into Demonstrate or Inspect. Reset restores the selected example. All results are illustrative; no model, tool, memory store, or network destination is invoked. See [scenario walkthroughs]({{ '/docs/scenarios/' | relative_url }}).
+
 ## Inspect unfamiliar text
 
 1. Choose **Inspect text** and paste into the input field. No technique selection is needed.
@@ -54,7 +58,7 @@ An inspection considers at most 50,000 original UTF-16 units and reports at most
 
 The original input is never normalized or stripped. Other apps, text editors, or models may alter hidden characters during copy/paste. Hidden tags are not encryption or authenticated provenance.
 
-Read the [exact character mapping and coverage]({{ '/docs/format/' | relative_url }}) or the [MVP review checklist]({{ '/docs/review/' | relative_url }}).
+Read the [exact character mapping and coverage]({{ '/docs/format/' | relative_url }}) or the [alpha verification record]({{ '/docs/review/' | relative_url }}).
 
 ## Credits and source
 

@@ -12,7 +12,7 @@ function setup() {
     cancel(id) { timers.delete(id); },
   });
   app.$nextTick = fn => fn();
-  app.$refs = { inspectInput: { focus() {}, setSelectionRange() {} }, rawOutput: { focus() {}, select() { selected++; } } };
+  app.$refs = { payloadInput: { focus() {} }, inspectInput: { focus() {}, setSelectionRange() {} }, rawOutput: { focus() {}, select() { selected++; } } };
   app.init();
   return { app, timers, selected: () => selected, tick(ms) {
     time += ms;
@@ -140,4 +140,23 @@ test('destroy cancels outstanding timers', () => {
   assert.equal(timers.size, 0);
   assert.equal(app.generated, null);
   assert.equal(app.result, null);
+});
+
+test('scenario loading cancels pending work and transfers the selected comparison exactly', () => {
+  const { app, tick, timers } = setup();
+  app.mode = 'scenarios'; app.scenarioId = 'layered'; app.scenarioComparison = 'benign';
+  const text = app.scenarioText;
+  app.payload = 'stale'; app.queueDemo(); app.loadScenarioDemo();
+  assert.equal(app.output, text);
+  assert.equal(app.mode, 'demonstrate');
+  assert.equal(timers.size, 0);
+  app.input = 'stale'; app.queueInspection(); app.inspectScenario();
+  tick(UPDATE_DELAY);
+  assert.equal(app.input, text);
+  assert.equal(app.mode, 'inspect');
+  assert.equal(app.result.status, 'findings');
+  app.resetScenario();
+  assert.equal(app.scenarioComparison, 'injected');
+  assert.notEqual(app.scenarioText, text);
+  assert.equal(app.input, text);
 });

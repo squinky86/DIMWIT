@@ -4,42 +4,35 @@ permalink: /docs/review/
 ---
 # Alpha verification
 
-The first alpha was accepted for release under the owner's instruction to complete all alpha milestones. Review [the deployed application]({{ '/' | relative_url }}). [Issue #10](https://github.com/squinky86/DIMWIT/issues/10) links the release commit, successful deployment, and immutable prerelease.
+The 0.0.1–0.0.6 alpha sequence is implemented directly on `main`, with immutable prereleases and successful Pages deployments linked in the [release record]({{ '/docs/releases/' | relative_url }}). The owner's instruction to complete the alpha milestones authorizes release acceptance. The 0.1.0 beta remains open for its separate acceptance and release.
 
-## Try the application
+## Reproduce the workflows
 
-1. Open [the toolkit]({{ '/' | relative_url }}). Demonstrate should be selected with a ready-made example and live preview beside the fields.
-2. Change the hidden text and pause for 0.6 seconds. Compare Rendered, Raw, and Escaped; copy the original from any view. No Generate button or delay selector is needed.
-3. Choose **Inspect output**, or paste into Inspect. Findings should update automatically; source selection and expanded explanations, context, and offsets must match the original input.
-4. Load **Ordinary text**, then **Emoji & formatting**. Compare no findings with legitimate formatting evidence.
-5. Type rapidly, compose multilingual text, clear/reset during the delay, and try invalid or oversized input. Old results must disappear immediately, and invalid or pending output must not be copyable.
-6. Navigate by keyboard without losing focus during automatic updates; test the compact desktop layout, stacked mobile panels, clipboard fallback, and documentation links.
+1. Open [the toolkit]({{ '/' | relative_url }}). Demonstrate opens with a ready-made Unicode-tag example. Select another technique and use Reset example to load its fixture.
+2. Edit a field and pause for 0.6 seconds. Compare Rendered, Raw and Escaped, and copy the complete output from any view. Update timing is documented here rather than displayed as a main-site note.
+3. Inspect the output. All supported analyzers run independently of the demonstration selection. Expand evidence, paths, comparisons and offsets; source selection must match the original ancestor. Nested decoded ranges are labeled separately.
+4. Compare ordinary text with benign formatting, multilingual, encoded and markup data. Observations are not a safety verdict. Try malformed input, an oversized block, or excessive nesting: inspection must be explicitly incomplete and preserve the original text.
+5. Open Scenarios. Select an injected and benign comparison, examine trust boundaries, then load the exact source into Demonstrate and Inspect. Reset the scenario and verify that a previously loaded inspection remains intact.
+6. Use only the keyboard for editing, changing views, copying or selecting text, and navigating evidence. Test mobile widths, composition, clipboard denial, and generated documentation.
 
-## Verification record
+## Automated and browser evidence
 
-Core automated tests cover 24 cases: literal vectors, all printable ASCII, exact cover preservation, Unicode offsets and display boundaries, repeated marks, benign multilingual and emoji input, malformed and reserved tags, output and inspection limits, partial scanning, analyzer failures, and inert decoded strings.
+The final alpha has **81 unit and interaction tests** across eight files. Coverage includes literal tag and standard encoding vectors, Unicode/BOM round trips, benign multilingual and emoji contexts, confusable/normalization comparisons, nested bidi pairing, source spans, malformed and unsupported syntax, recursion/input/output/candidate limits, independent mixed findings, analyzer failures, inert text, scenario fidelity, debounce/composition/reset behavior, clipboard races, and dependency-report policy. Unsupported codec names and user-controlled attribute names cannot inject directional controls into interface labels.
 
-Twelve dependency-report tests cover issue creation, no-update behavior, duplicate and closed-report suppression, preserving owner notes, handling edited report markers, stable report fingerprints, generic Action references, new-series notifications, exact-tag fallback, and excluding drafts, prereleases, and downgrades.
+`tests/browser.mjs` verifies **20 techniques and ten scenarios with both comparisons** in Chromium 157 and Firefox 159. Checks include output fidelity, source selection, all preview views, keyboard focus, actual clipboard preservation in Chromium, denied-clipboard selection in both browsers, oversized input, explicit script/image inertness, 320/390/768px layouts across all three workflows, and all generated documentation routes. No external content requests or page script errors were observed.
 
-Twelve interaction tests cover the default demonstration, the fixed 600 ms delay, successive edits, stale-result clearing, composition, reset and example cancellation, independent workflows, exact transfer to inspection, clipboard fallback and late failures, and timer cleanup.
+Axe WCAG 2 A/AA and 2.1 A/AA checks pass for technique previews, inspection findings, incomplete inspection, the scenario workspace, and documentation in both browsers. Screenshots were visually reviewed at 1366×768 and mobile width; the default desktop workspace fits without page scrolling. Browser tooling is installed separately from application dependencies; reproduction instructions are in [Development]({{ '/docs/development/' | relative_url }}).
 
-The compact GUI was checked in Chromium 157 and Firefox 159: the default workspace fits at 1366×768 without page scrolling, and both workflows fit 320-, 390-, and 768-pixel widths without horizontal overflow. Browser checks cover automatic updates, input composition, preserved focus, all three output views, exact source selection, actual clipboard preservation in Chromium, denied-clipboard selection in both browsers, malformed and oversized input, and generated docs. Desktop and mobile accessibility checks found no WCAG 2 A/AA or 2.1 A/AA violations in the tested application states.
+The production Jekyll build verifies **eight generated pages**, project-path links, assets, shared version labels and exclusion of source-only files. Every release follows a successful `main` build and Pages deployment. Historical workflow URLs are in the release record; the final release issue links its accepted commit and workflow.
 
-The production build checks generated links and assets under `/DIMWIT/`, version labels, and exclusion of source-only files. Chromium 157 and Firefox 159 browser checks on November 10, 2026 passed the main workflows, exact text selection, stale-result clearing, inert decoded markup, clipboard denial and manual-copy fallback, input limits, 320/390-pixel layouts, keyboard-only inspection, and all generated documentation routes. Chromium also passed an actual clipboard write/read round trip with hidden characters preserved. No external requests or browser script errors were observed in those flows.
+## Screen-reader evidence and limits
 
-Automated axe checks reported no WCAG 2 A/AA or WCAG 2.1 A/AA violations in the empty inspector, findings, generated output, four documentation pages, and 404 page in both browsers. These browser tools were installed in a temporary verification environment, not added as application dependencies. [GitHub Actions](https://github.com/squinky86/DIMWIT/actions) and the linked milestone issues record CI and deployment results.
+Orca with Chromium was exercised in an isolated desktop session. Keyboard flows cover editing, automatic preview, transfer to Inspect, recovered text, source-selection controls, and explanations. Speech output confirmed the field labels, preview update, inspection region, decoded BANANA text, selection range and explanation control. The final scenario flow also exercises scenario selection, the benign comparison, and inspection, with AT-SPI events and speech output recorded.
 
-On November 10, 2026, a fresh Chromium/Firefox regression passed against the release build. An isolated Orca/Chromium session exercised keyboard-only editing, automatic preview, transfer into Inspect, revealed text, source-selection controls, and expandable explanations. Orca's speech-dispatch log confirmed the field labels, preview update, inspection region, decoded BANANA text, selection range, and explanation control. This is actual screen-reader integration verification with recorded speech output, not a human listening study. Safari and physical devices remain untested; browser viewport checks do not establish device coverage.
+This is actual screen-reader integration testing using recorded speech output, not a human listening study. Safari and physical devices remain untested. Automated accessibility and viewport checks do not establish those forms of coverage.
 
-## Subsequent alpha verification
+## Release policy and coverage
 
-`tests/browser.mjs` exercises each available technique and its inspection results in Chromium and Firefox, including WCAG 2/2.1 A/AA axe checks, exact transfer, source selection, keyboard editing, clipboard fidelity/fallback, 320/390/768px layouts, and generated docs. The direct-technique fixtures cover all four recipes, quoted benign matches, multilingual offsets, malformed framing, and bounded repetition. Each release issue records the successful build and deployment.
+Each release confirms application/docs version consistency, tests and production build, live deployment, changelog, immutable tag and GitHub prerelease before closing its milestone. Dependency automation continues to report issues for manual resolution, without PRs or code/lockfile changes; security alerts remain separate. Versions `0.0.x` are alpha and `0.y.x` with `y >= 1` are beta. No backward compatibility is required, and tags are never rewritten.
 
-## Release gates
-
-- Review the application deployed from `main`.
-- Verify the default-branch Pages deployment and smoke-test its public URL.
-- Verify security alerts, disabled automatic PRs, and the weekly dependency-issue check; check the owner’s preferred notification delivery.
-- Publish `v0.0.1` as a GitHub prerelease after acceptance and record its deployment in issue #10.
-
-The supplied prototype directory was checked again and contains no files. The owner's instruction to complete the alpha releases is being carried out using the independently specified mapping; there is no prototype comparison or compatibility claim. See [Hidden text & coverage]({{ '/docs/format/' | relative_url }}).
+The supplied prototype directory was checked and contains no files. Alpha proceeds with the independently documented mapping under the owner's instruction, without a prototype-comparison or compatibility claim. See [techniques and coverage]({{ '/docs/format/' | relative_url }}) for exact parser subsets, Unicode data, decoding budgets, external trust assumptions and known gaps.

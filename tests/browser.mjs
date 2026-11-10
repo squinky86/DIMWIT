@@ -23,7 +23,7 @@ for (const engine of ['chromium', 'firefox']) {
   await ready();
   const methods = await page.locator('#technique option').evaluateAll(options => options.map(o => o.value));
   for (const method of methods) {
-    await page.getByRole('button', { name: 'Demonstrate', exact: false }).click();
+    await page.locator('.mode-switch').getByRole('button', { name: 'Demonstrate', exact: false }).click();
     await page.locator('#technique').selectOption(method);
     await page.getByRole('button', { name: 'Reset example', exact: true }).click();
     await ready();
@@ -40,16 +40,41 @@ for (const engine of ['chromium', 'firefox']) {
     assert.ok(selection[1] > selection[0]);
     await audit(`${method} findings`);
   }
+  await page.locator('#inspect-input').fill('<script>window.dimwitProbe = 1</script><img src="https://example.invalid/probe" onerror="window.dimwitProbe = 2">');
+  await page.locator('.finding').first().waitFor();
+  assert.equal(await page.evaluate(() => window.dimwitProbe), undefined);
+  assert.equal(await page.locator('.inspection-panel img, .inspection-panel script, .inspection-panel iframe').count(), 0);
   await page.locator('#inspect-input').fill('Ordinary text without special markers.');
   await page.locator('#results-title').filter({ hasText: 'No supported indicators found' }).waitFor();
   await page.locator('#inspect-input').fill('a'.repeat(50001));
   await page.locator('#results-title').filter({ hasText: 'Inspection incomplete' }).waitFor();
   assert.equal((await page.locator('#inspect-input').inputValue()).length, 50001);
   await audit('incomplete');
+  await page.getByRole('button', { name: 'Scenarios', exact: true }).click();
+  const scenarios = await page.locator('#scenario option').evaluateAll(options => options.map(o => o.value));
+  for (const scenario of scenarios) for (const comparison of ['Injected example', 'Benign comparison']) {
+    await page.getByRole('button', { name: 'Scenarios', exact: true }).click();
+    await page.locator('#scenario').selectOption(scenario);
+    await page.getByRole('button', { name: comparison, exact: true }).click();
+    await page.getByRole('group', { name: 'Scenario source view' }).getByRole('button', { name: 'Raw', exact: true }).click();
+    const original = await page.locator('#scenario-source').inputValue();
+    await page.getByRole('button', { name: 'Load in Demonstrate', exact: true }).click();
+    await ready();
+    assert.equal(await page.locator('#raw-output').inputValue(), original);
+    await page.getByRole('button', { name: 'Scenarios', exact: true }).click();
+    await page.getByRole('button', { name: 'Inspect scenario', exact: true }).click();
+    await page.locator('.finding').first().waitFor();
+    assert.equal(await page.locator('#inspect-input').inputValue(), original);
+    assert.equal(await page.locator('#results-title').innerText(), 'Evidence found');
+  }
+  await page.getByRole('button', { name: 'Scenarios', exact: true }).click();
+  await page.getByRole('button', { name: 'Reset scenario', exact: true }).click();
+  assert.equal(await page.getByRole('button', { name: 'Injected example', exact: true }).getAttribute('aria-pressed'), 'true');
+  await audit('scenario walkthrough');
   for (const width of [320, 390, 768]) {
     await page.setViewportSize({ width, height: 844 });
-    for (const name of ['Demonstrate', 'Inspect text']) {
-      await page.getByRole('button', { name, exact: false }).click();
+    for (const name of ['Demonstrate', 'Inspect text', 'Scenarios']) {
+      await page.locator('.mode-switch').getByRole('button', { name, exact: false }).click();
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${name} overflow at ${width}`);
     }
   }
@@ -75,13 +100,13 @@ for (const engine of ['chromium', 'firefox']) {
   await page.getByRole('button', { name: 'Copy text', exact: true }).click();
   await page.locator('.copy-status').filter({ hasText: 'Raw text is selected' }).waitFor();
   assert.equal(await page.locator('#raw-output').evaluate(el => el.selectionEnd - el.selectionStart), output.length);
-  for (const path of ['docs/', 'docs/format/', 'docs/development/', 'docs/review/']) {
+  for (const path of ['docs/', 'docs/format/', 'docs/development/', 'docs/review/', 'docs/scenarios/', 'docs/releases/']) {
     assert.equal((await page.goto(base + path)).status(), 200);
     await audit(path);
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), path);
   }
   assert.deepEqual(errors, []);
   assert.deepEqual(external, []);
-  console.log(`${engine} ${browser.version()}: ${methods.length} techniques, inert previews, findings, keyboard, clipboard, mobile and axe checks passed.`);
+  console.log(`${engine} ${browser.version()}: ${methods.length} techniques and ${scenarios.length} scenarios with both comparisons, inert previews, findings, keyboard, clipboard, mobile and axe checks passed.`);
   await browser.close();
 }

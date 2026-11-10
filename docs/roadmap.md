@@ -6,11 +6,11 @@ DIMWIT is a browser-based technique demonstrator and pasted-text inspector. Demo
 
 The first alpha delivers the non-printing-text proof of concept. Later alphas add visible, Unicode, encoded, and indirect injection families. The beta release combines them into one inspection workbench. The application does not claim to prove intent, authorship, model obedience, or universal prompt safety.
 
-**Implementation status:** 0.0.1–0.0.4 are released. The 0.0.5 markup family is implemented with inert source generation, source spans, contextual heuristic matches, selected hiding/active indicators, and explicit parser limits. Issue #14 records verification and release evidence.
+**Implementation status:** all 0.0.1–0.0.6 alpha features are implemented on `main`, with 20 demonstrations, automatic bounded inspection, and ten local scenarios. [The release record](releases.md) links immutable tags, commits, builds, and issue evidence. The 0.1.0 beta remains open for its separate integration/release acceptance.
 
 Develop directly on `main` / HEAD throughout alpha and beta without development pull requests. Backward compatibility is never required, including in later releases. Interfaces, formats, and behavior may change or be removed; old behavior does not need compatibility layers or migration support.
 
-Unicode-tag generation, known subdivision-flag context, and the basic default-ignorable/format-control inventory are delivered in this MVP. Milestone 0.0.3 extends that baseline with variation-selector payloads, confusables, bidi pairing, unusual whitespace, normalization comparisons, and more complete context validation.
+Unicode-tag generation, known subdivision-flag context, and the basic default-ignorable/format-control inventory are delivered in this MVP. The released 0.0.3 extends that baseline with variation-selector payloads, confusables, bidi pairing, unusual whitespace, normalization comparisons, and more complete context validation.
 
 ## Milestone sequence
 

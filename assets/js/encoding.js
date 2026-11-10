@@ -118,12 +118,13 @@ export function scanEncoding(text) {
     seen.add(`${start}:${end}:${codec}`);
     if (++candidates > 100) { if (!result.reasons.includes('The 100-encoding-candidate limit was reached.')) result.reasons.push('The 100-encoding-candidate limit was reached.'); return; }
     let decoded = '', error = '';
+    const label = CODECS.includes(codec) ? codec : 'unsupported codec';
     try { decoded = decode(value, codec); } catch (e) { error = e.message; }
     // Unframed Base64/hex guesses may simply be ordinary words or binary data.
     if (error && !explicit && ['base64', 'base64url', 'hex'].includes(codec)) return;
-    if (error) result.reasons.push(`${codec}: ${error}`);
-    result.add(start, end, { kind: error ? 'partial' : 'encoded', title: error ? `Incomplete ${codec} representation` : `${codec} ${explicit ? 'representation' : 'candidate'}`,
-      rule: `encoding:${codec}`, decoded, transform: codec,
+    if (error) result.reasons.push(`${label}: ${error}`);
+    result.add(start, end, { kind: error ? 'partial' : 'encoded', title: error ? `Incomplete ${label} representation` : `${label} ${explicit ? 'representation' : 'candidate'}`,
+      rule: `encoding:${label}`, decoded, transform: label,
       explanation: error || `${explicit ? 'Explicit supported encoding syntax' : 'Heuristic encoding candidate'} decoded deterministically with strict validation. Ordinary data can use this encoding. The text is inert and conveys no evidence of intent or model behavior.` });
   };
   for (const match of text.matchAll(/\[\[ENC:([^\]\n]+)\]\]/g)) {
