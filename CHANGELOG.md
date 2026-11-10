@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.0.1 — Unreleased alpha preview
+## 0.0.1 — 2026-11-10
 
 - Jekyll and Alpine.js application with separate Demonstrate and automatic Inspect workflows.
 - Printable ASCII to Unicode tag demonstration; hidden Unicode and formatting inspection with exact offsets and escaped context.
@@ -10,6 +10,6 @@
 - Locked dependencies, weekly update issues for manual resolution, and tested GitHub Pages deployment using ubuntu-26.04.
 - Current stable Action release references, Node 26 LTS, Ruby 4.0, and Bundler 4.0.24; documented Jekyll constraints for deferred gem major upgrades.
 
-This preview has not been tagged or published as a release.
+First alpha release. Keyboard navigation and speech output were verified with Orca and Chromium, including editable field labels, preview updates, revealed text, source selection, and expandable explanations. Chromium and Firefox regression, mobile viewport, clipboard, and automated accessibility checks pass. Safari, physical devices, and human listening studies are not part of this verification.
 
 Development proceeds directly on `main` during alpha and beta. Backward compatibility is never required. Dependency automation reports available updates as issues for manual resolution; automatic update PRs and code changes are disabled.

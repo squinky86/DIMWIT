@@ -10,7 +10,7 @@ DIMWIT is a Jekyll and Alpine.js web application for demonstrating prompt-inject
 
 [Application on GitHub Pages](https://squinky86.github.io/DIMWIT/) · [Generated documentation](https://squinky86.github.io/DIMWIT/docs/) · [Milestones](https://github.com/squinky86/DIMWIT/milestones) · [Roadmap](docs/roadmap.md) · [Architecture](docs/architecture.md)
 
-The **0.0.1 alpha preview is implemented on `main`**. It demonstrates non-printing text with Unicode tags and automatically inspects pasted text for hidden Unicode, format controls, malformed tag sequences, and recoverable content. Successful `main` builds publish the application and documentation to GitHub Pages for review; `v0.0.1` has not been released.
+The **0.0.1 alpha** demonstrates non-printing text with Unicode tags and automatically inspects pasted text for hidden Unicode, format controls, malformed tag sequences, and recoverable content. Successful `main` builds publish the application and documentation to GitHub Pages. [Release notes](https://github.com/squinky86/DIMWIT/releases/tag/v0.0.1) record the immutable release and its verification.
 
 **Demonstrate** is the default, with a ready-made example and a live preview beside the fields. **Inspect** runs all supported checks against pasted text and shows exact positions, decoded text, escaped evidence, and incomplete-scan notices. Both workflows update automatically 0.6 seconds after typing or pasting stops. Rendered/raw/escaped views and expandable evidence retain the detail in a compact workspace.
 

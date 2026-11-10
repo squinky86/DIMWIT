@@ -4,7 +4,7 @@ permalink: /docs/
 ---
 # See what your text is carrying
 
-DIMWIT {{ site.data.build.version }} is an alpha preview for demonstrating non-printing text and inspecting pasted text. It runs locally in your browser. Pasted text, generated output, and findings are not uploaded or saved.
+DIMWIT {{ site.data.build.version }} is an alpha for demonstrating non-printing text and inspecting pasted text. It runs locally in your browser. Pasted text, generated output, and findings are not uploaded or saved.
 
 ## Demonstrate non-printing text
 

@@ -22,7 +22,7 @@ npm run dev
 
 Open `http://127.0.0.1:4000/DIMWIT/`. Ensure `ruby` and `bundle` on your `PATH` belong to the selected Ruby installation. The production build uses `/DIMWIT` as its base path, matching GitHub Pages.
 
-`npm run build` copies Alpine and its license, generates display-version data from `package.json`, builds with Jekyll, and checks internal links, assets, version labels, and build exclusions. `npm test` uses Node’s built-in test runner; there is no application test-framework dependency. The version is `0.0.1`, labeled **alpha preview** until release acceptance.
+`npm run build` copies Alpine and its license, generates display-version data from `package.json`, builds with Jekyll, and checks internal links, assets, version labels, and build exclusions. `npm test` uses Node’s built-in test runner; there is no application test-framework dependency. The version comes from `package.json` and is labeled **alpha** for `0.0.x` releases.
 
 ## Code map
 
@@ -77,7 +77,7 @@ Retain these compatible versions until parent releases allow the newer majors. D
 
 The [review checklist]({{ '/docs/review/' | relative_url }}) records verification and remaining release gates. Review the application deployed from `main`. Issues and milestone status remain open until their acceptance criteria are satisfied; development does not wait on a pull-request gate.
 
-After acceptance and a successful Pages deployment, remove the preview stage label in `scripts/prepare-site.mjs`, confirm the changelog and application version, create immutable tag `v0.0.1` at the accepted commit, and publish a GitHub prerelease with its Pages link, coverage, and known limits. A tag does not deploy by itself; the tested main-branch workflow does. The release issue tracks these actions so a review build is not mistaken for a released alpha.
+After acceptance and a successful Pages deployment, confirm the changelog and application version, create the matching immutable version tag at the accepted commit, and publish a GitHub prerelease with its Pages link, coverage, and known limits. A tag does not deploy by itself; the tested main-branch workflow does. The release issue tracks these actions with the accepted commit and deployment evidence.
 
 Versions `0.0.x` are alpha and `0.y.x` with `y >= 1` are beta. Publish new versions for changes to an existing release. Never rewrite released tags.
 

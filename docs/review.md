@@ -4,7 +4,7 @@ permalink: /docs/review/
 ---
 # Review the 0.0.1 MVP
 
-This build is an alpha preview developed directly on `main`. Review [the deployed application]({{ '/' | relative_url }}). Release tagging and acceptance are tracked separately in [issue #10](https://github.com/squinky86/DIMWIT/issues/10).
+The first alpha was accepted for release under the owner's instruction to complete all alpha milestones. Review [the deployed application]({{ '/' | relative_url }}). [Issue #10](https://github.com/squinky86/DIMWIT/issues/10) links the release commit, successful deployment, and immutable prerelease.
 
 ## Try the application
 
@@ -29,7 +29,7 @@ The production build checks generated links and assets under `/DIMWIT/`, version
 
 Automated axe checks reported no WCAG 2 A/AA or WCAG 2.1 A/AA violations in the empty inspector, findings, generated output, four documentation pages, and 404 page in both browsers. These browser tools were installed in a temporary verification environment, not added as application dependencies. [GitHub Actions](https://github.com/squinky86/DIMWIT/actions) and the linked milestone issues record CI and deployment results.
 
-Safari, physical devices, and screen-reader use have not been tested. Browser viewport checks and automated accessibility checks do not replace those manual checks.
+On November 10, 2026, a fresh Chromium/Firefox regression passed against the release build. An isolated Orca/Chromium session exercised keyboard-only editing, automatic preview, transfer into Inspect, revealed text, source-selection controls, and expandable explanations. Orca's speech-dispatch log confirmed the field labels, preview update, inspection region, decoded BANANA text, selection range, and explanation control. This is actual screen-reader integration verification with recorded speech output, not a human listening study. Safari and physical devices remain untested; browser viewport checks do not establish device coverage.
 
 ## Release gates
 
@@ -38,4 +38,4 @@ Safari, physical devices, and screen-reader use have not been tested. Browser vi
 - Verify security alerts, disabled automatic PRs, and the weekly dependency-issue check; check the owner’s preferred notification delivery.
 - Publish `v0.0.1` as a GitHub prerelease after acceptance and record its deployment in issue #10.
 
-Prototype comparison remains open because the supplied prototype directory contained no files. The MVP’s independent mapping and scope are documented in [Hidden text & coverage]({{ '/docs/format/' | relative_url }}).
+The supplied prototype directory was checked again and contains no files. The owner's instruction to complete the alpha releases is being carried out using the independently specified mapping; there is no prototype comparison or compatibility claim. See [Hidden text & coverage]({{ '/docs/format/' | relative_url }}).
