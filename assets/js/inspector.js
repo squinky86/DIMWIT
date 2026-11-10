@@ -1,11 +1,11 @@
 import { MAX_INPUT, MAX_PAYLOAD, MAX_FINDINGS, isHidden, isTag, characterName, code, context, boundedSlice } from './text.js';
 import { analyzeTagRun } from './tags.js';
 import { directAnalyzer } from './direct.js';
+import { unicodeAnalyzers, isSelector, variationContext } from './unicode.js';
 
 function describe(cp) {
   if (cp === 0x200D || cp === 0x200C) return 'Join controls are used in connected scripts and emoji. Their presence alone does not establish injection.';
-  if ((cp >= 0xFE00 && cp <= 0xFE0F) || (cp >= 0xE0100 && cp <= 0xE01EF)) return 'Variation selectors can choose an emoji or glyph appearance. This alpha shows their presence; it does not validate every variation sequence or decode them.';
-  if ([0x061C, 0x200E, 0x200F].includes(cp) || (cp >= 0x202A && cp <= 0x202E) || (cp >= 0x2066 && cp <= 0x2069)) return 'A directional control can change visual reading order. It may be legitimate in right-to-left text. Pairing analysis is planned for 0.0.3.';
+  if ([0x061C, 0x200E, 0x200F].includes(cp) || (cp >= 0x202A && cp <= 0x202E) || (cp >= 0x2066 && cp <= 0x2069)) return 'A directional control can change visual reading order. It may be legitimate in right-to-left text. Pairing evidence is reported separately.';
   if (cp === 0xFEFF) return 'This can be a byte-order mark or legacy non-breaking format character. Review its position and surrounding text.';
   if (cp >= 0xD800 && cp <= 0xDFFF) return 'An unpaired UTF-16 surrogate is malformed text; copying or encoding may replace it.';
   return 'A non-printing, default-ignorable, or format character is present. It can have a legitimate text-formatting use.';
@@ -33,10 +33,10 @@ export function scanHidden(text) {
     } else {
       end = start + width;
       count = 1;
-      while (end < text.length && text.codePointAt(end) === cp) { end += width; count++; }
+      while (end < text.length && (isSelector(cp) ? isSelector(text.codePointAt(end)) : text.codePointAt(end) === cp)) { end += text.codePointAt(end) > 0xFFFF ? 2 : 1; count++; }
       finding = {
         kind: cp >= 0xD800 && cp <= 0xDFFF ? 'partial' : 'formatting',
-        title: characterName(cp), explanation: describe(cp), codepoints: code(cp),
+        title: isSelector(cp) && count > 1 ? 'Variation-selector run' : characterName(cp), explanation: isSelector(cp) ? variationContext(text, start, end) : describe(cp), codepoints: code(cp) + (isSelector(cp) && count > 1 ? ' … ' + code(text.codePointAt(end - (text.charCodeAt(end - 1) >= 0xDC00 && text.charCodeAt(end - 1) <= 0xDFFF ? 2 : 1))) : ''),
         count, start, end, decoded: '',
       };
     }
@@ -53,7 +53,7 @@ export const analyzers = [{
   evidenceTypes: ['formatting', 'hidden', 'partial'],
   limits: { inputUnits: MAX_INPUT, findings: MAX_FINDINGS, decodedCharacters: MAX_PAYLOAD, recursionDepth: 0 },
   analyze: scanHidden,
-}, directAnalyzer];
+}, directAnalyzer, ...unicodeAnalyzers];
 
 export function inspect(input, enabledAnalyzers = analyzers) {
   if (!input.length) return { status: 'empty', findings: [], reasons: [], checks: [], scannedUnits: 0 };

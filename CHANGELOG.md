@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.0.3 — 2026-11-10
+
+- Added UTF-8 variation-selector payloads, limited Cyrillic confusable substitution, and balanced directional-control demonstrations.
+- Updated the pinned character and standardized/emoji variation data to Unicode 18.0.0. Added unusual whitespace, combining-mark runs, Greek/Cyrillic comparisons, mixed-script tokens, and NFC/NFD/NFKC/NFKD evidence.
+- Added bounded bidi pairing with isolate boundaries, paragraph resets, and unpaired-control evidence. Previews stay isolated and original text is preserved.
+- Added whitespace and comparison views, changed-code-point previews, and benign multilingual, emoji, normalization, malformed, nested-bidi, and size-limit fixtures.
+
 ## 0.0.2 — 2026-11-10
 
 - Added instruction override, system-role impersonation, code-fence/delimiter breakout, and dummy prompt-extraction demonstrations.

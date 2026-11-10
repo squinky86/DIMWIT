@@ -10,7 +10,7 @@ DIMWIT {{ site.data.build.version }} is an alpha for demonstrating injection tec
 
 [The toolkit]({{ '/' | relative_url }}) opens in **Demonstrate** with a ready-made example. Edit visible cover text and the text to hide on the left; the preview on the right updates **0.6 seconds after you stop typing or pasting**. There is no Generate button or delay setting. On narrow screens, the preview sits directly below the fields.
 
-Choose a technique in Demonstrate. Unicode tags accept up to 1,024 printable ASCII characters; direct techniques accept up to 1,024 UTF-16 units of Unicode. Reset example loads the selected technique’s example. The cover accepts Unicode. Choose whether hidden text goes before or after the cover. Input methods such as Japanese composition can finish before an update runs.
+Choose a technique in Demonstrate. Unicode tags accept up to 1,024 printable ASCII characters; direct and Unicode extension techniques accept up to 1,024 UTF-16 units of Unicode. Reset example loads the selected technique’s example. The cover accepts Unicode. Choose whether hidden text goes before or after the cover. Input methods such as Japanese composition can finish before an update runs.
 
 The output has three views:
 
@@ -27,7 +27,7 @@ Choose **Inspect output** to transfer the exact result, or copy it into Inspect 
 1. Choose **Inspect text** and paste into the input field. No technique selection is needed.
 2. After a 0.6-second pause, all supported checks run automatically and the summary appears beside your input.
 3. Read revealed text and the evidence for each finding. **Select** highlights the exact source range in your input. **Explanation, context & exact offsets** expands the character explanation, escaped context, and numeric ranges.
-4. Use **View escaped input** when you want to examine the complete input within the scan budget. Longer findings and previews scroll within their panels; content is not silently omitted.
+4. Expand **View whitespace** or normalization/confusable comparisons to examine formatting without changing the original. Use **View escaped input** when you want to examine the complete input within the scan budget. Longer findings and previews scroll within their panels; content is not silently omitted.
 
 The **Hidden instruction**, **Ordinary text**, and **Emoji & formatting** examples update immediately. Emoji, joiners, and directional formatting can legitimately produce findings. Inspect does not invoke a model, execute pasted markup, or visit links.
 
@@ -39,6 +39,7 @@ The **Hidden instruction**, **Ordinary text**, and **Emoji & formatting** exampl
 | Supported structure | Literal framing matches a documented recipe; it proves neither origin nor privileged status. |
 | Heuristic match | A visible phrase, role label, or delimiter matched a rule. Benign quotations and documentation can match. |
 | Revealed content | Printable tag characters were decoded. This reveals content, not intent or origin. |
+| Comparison | A limited visual mapping or normalization form differs. It is not recovered original text or a cleanup recommendation. |
 | Formatting | A character has a formatting use, such as an emoji variation selector or text joiner. |
 | Review needed | A sequence is partial, unsupported, or malformed. |
 | No supported indicators found | The implemented checks finished without findings. Heuristic lexical rules are limited to the documented English phrases; other languages and encodings are not comprehensive. |

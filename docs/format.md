@@ -1,8 +1,8 @@
 ---
-title: Hidden text and coverage
+title: Techniques and coverage
 permalink: /docs/format/
 ---
-# The non-printing demonstration
+# Techniques and inspection coverage
 
 The MVP maps printable ASCII directly into Unicode tag characters. It does not require a custom DIMWIT identifier or header, and the inspector makes no claim about which application created the text.
 
@@ -34,7 +34,7 @@ England, Scotland, and Wales emoji tag sequences after `U+1F3F4 BLACK FLAG` are 
 
 ## Exact inspection coverage
 
-The checked-in tables come from **Unicode 17.0.0**. Coverage is deterministic across browsers and does not depend on the runtime’s Unicode property tables. The baseline surfaces:
+The checked-in tables come from **Unicode 18.0.0**. The character inventory and variation-pair tables are deterministic across browsers. Normalization and Latin/Greek/Cyrillic script-property comparisons use the browser’s Unicode implementation. The baseline surfaces:
 
 - All `Default_Ignorable_Code_Point` ranges in the pinned DerivedCoreProperties data.
 - All `Cf` format characters in the pinned UnicodeData data.
@@ -43,7 +43,7 @@ The checked-in tables come from **Unicode 17.0.0**. Coverage is deterministic ac
 
 Adjacent repeats of the same ordinary control are grouped into a single finding with a count. Tag runs are grouped separately. Each finding includes readable names where Unicode provides them, code points, and exact source ranges. Reserved default-ignorables receive an explicit fallback name.
 
-Legitimate joiners, variation selectors, byte-order marks, emoji, and directional controls are described as formatting evidence. This alpha does not validate every emoji/variation sequence, pair bidi controls, decode variation-selector payloads, detect confusables, compare normalization forms, analyze HTML, decode Base64, or detect ordinary-language instruction overrides. Those remain roadmap work.
+Legitimate joiners, variation selectors, byte-order marks, emoji, and directional controls are described as formatting evidence. The extensions below add defined variation, bidi, confusable, normalization, and direct-text coverage. They do not establish intent. General HTML and encoding inspection remain later-alpha work.
 
 ## Positions and budgets
 
@@ -53,7 +53,7 @@ Scanning stops at 50,000 units or 200 findings. An input cut never splits a vali
 
 ## Sources and maintenance
 
-The [Unicode Standard chapter on special characters](https://www.unicode.org/versions/Unicode17.0.0/core-spec/chapter-23/) describes tag and format characters. The generated tables retain the Unicode license. Maintainers can regenerate them with `scripts/build-unicode-data.mjs` using the official Unicode 17.0.0 `DerivedCoreProperties.txt` and `UnicodeData.txt`; normal builds use the committed tables and make no Unicode-data request.
+The [Unicode Standard chapter on special characters](https://www.unicode.org/versions/Unicode18.0.0/core-spec/chapter-23/) describes tag and format characters. The generated tables retain the Unicode license. Maintainers can regenerate them with `scripts/build-unicode-data.mjs` by passing a directory with official Unicode 18.0.0 `DerivedCoreProperties.txt`, `UnicodeData.txt`, `StandardizedVariants.txt`, and `emoji-variation-sequences.txt`; normal builds use the committed tables and make no Unicode-data request.
 
 ## Direct and structural text (0.0.2)
 
@@ -62,3 +62,17 @@ The four recipes are `override`, `role`, `breakout`, and `extraction`. Their exa
 Independent heuristic rules surface English ignore/disregard/forget-previous-instructions phrases, print/reveal/show/repeat/disclose-system/developer-prompt phrases, selected system/developer role labels, triple-backtick fences, and context/instruction/system delimiters. Each finding names its rule and exact source range. Quotations, manuals, and source-code examples can match. Text resembling a system message does not gain privileges inside pasted content. Other wording and languages are not reliable semantic-detection targets.
 
 Missing or inconsistent supported framing produces partial evidence and an incomplete result. Tests include benign quotations, role labels, code fences, multilingual context, malformed framing, combined Unicode evidence, and repeated matches at the finding limit. All previews remain inert text.
+
+## Unicode extensions (0.0.3)
+
+**Variation-selector payloads:** well-formed Unicode is encoded as UTF-8 bytes, inside the visible literal frame `[[VS:UTF8]]` and `[[/VS]]`. Bytes 0–15 map to U+FE00–U+FE0F; bytes 16–255 map to U+E0100–U+E01EF. The cover is unchanged. Generation accepts 1–1,024 UTF-16 payload units. Inspection decodes at most 4,096 bytes and 1,024 resulting units, uses fatal UTF-8 validation, and preserves any BOM as text. Empty, interrupted, unsupported, unterminated, invalid-UTF-8, or over-budget frames make inspection incomplete without claiming successful recovery. Unframed selectors are formatting evidence, not decoded guesses. This is a documented recipe, not encryption or provenance.
+
+Unicode 18 standardized and emoji variation pairs identify ordinary base/selector sequences. Other runs receive a contextual explanation; ideographic variation registrations and complete shaping validity are outside coverage. Known subdivision emoji flags retain their formatting status. Joiners used by emoji and connected scripts are surfaced with legitimate-use explanations. Soft hyphen, BOM, zero-width/default-ignorable characters, C0/C1 controls, Unicode space/line/paragraph separators, and four-or-more combining-mark runs remain independent evidence. The four-mark threshold is a review aid, not a linguistic validity rule. Whitespace view makes ordinary spaces, tabs and line endings visible too.
+
+**Confusables:** generation substitutes the Latin characters `aeopcxyABCEHIKMOPTX` with the corresponding Cyrillic lookalikes in `assets/js/unicode.js`. Inspection adds a deliberately limited Greek uppercase set plus Greek omicron. The full mapping is that exported `CONFUSABLES` object, with changed code points shown in the preview. Multiple scripts can share the same Latin comparison. This is neither a complete UTS 39 implementation nor reconstruction of original spelling. Mixed-script findings cover Latin, Greek and Cyrillic within letter/mark tokens; other scripts are preserved without an attack verdict. Legitimate Greek and Cyrillic prose can produce comparison findings.
+
+**Normalization:** NFC, NFD, NFKC and NFKD comparisons retain the original text and locate the differing source interval. The normalized comparison replaces that interval only for illustration. A comparison larger than 4,096 UTF-16 units is shown partially and marks inspection incomplete. Compatibility transformations can erase meaningful distinctions; no normalization is offered as harmless cleanup. These forms follow the browser's Unicode normalization implementation.
+
+**Bidirectional controls:** generation offers LRE, RLE, LRO, RLO, LRI, RLI and FSI, each with the appropriate PDF or PDI closer. It inserts one balanced pair around one paragraph without existing controls; all cover code units remain unchanged. Inspection tracks up to 16 nested embedding/override/isolate openers. PDF cannot cross an isolate boundary; PDI ends its isolate and any embeddings within it. Paragraph boundaries reset the stack. Unpaired openers/closers receive explicit evidence and affected spans, while depth exhaustion makes inspection incomplete. LRM, RLM and ALM remain independent formatting evidence. This inspects logical control structure, not full visual layout, bracket resolution, or model behavior. Rendered/decoded/comparison blocks isolate directionality from application labels.
+
+References: [Unicode variation data](https://www.unicode.org/Public/18.0.0/ucd/StandardizedVariants.txt), [emoji variation sequences](https://www.unicode.org/Public/18.0.0/ucd/emoji/emoji-variation-sequences.txt), [UAX 9](https://www.unicode.org/reports/tr9/), [UAX 15](https://www.unicode.org/reports/tr15/), and [UTS 39](https://www.unicode.org/reports/tr39/).

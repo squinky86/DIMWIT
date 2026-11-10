@@ -51,7 +51,8 @@ test('contiguous repeated controls are counted and selected as one span', () => 
 });
 test('empty, ordinary and format-bearing input have distinct outcomes', () => {
   assert.equal(inspect('').status, 'empty');
-  assert.equal(inspect('Hello! café Ελληνικά العربية 日本語\n\r\t').status, 'none');
+  assert.equal(inspect('Hello! العربية 日本語\n\r\t').status, 'none');
+  assert.ok(inspect('café Ελληνικά').findings.every(f => ['comparison', 'formatting'].includes(f.kind)));
   assert.equal(inspect(' ').status, 'none');
   assert.equal(inspect('A\u200BB').status, 'findings');
 });
