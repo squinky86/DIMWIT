@@ -2,6 +2,7 @@ import { MAX_INPUT, MAX_PAYLOAD, MAX_FINDINGS, isHidden, isTag, characterName, c
 import { analyzeTagRun } from './tags.js';
 import { directAnalyzer } from './direct.js';
 import { encodingAnalyzer } from './encoding.js';
+import { markupAnalyzer } from './markup.js';
 import { unicodeAnalyzers, isSelector, variationContext } from './unicode.js';
 
 function describe(cp) {
@@ -54,7 +55,7 @@ export const analyzers = [{
   evidenceTypes: ['formatting', 'hidden', 'partial'],
   limits: { inputUnits: MAX_INPUT, findings: MAX_FINDINGS, decodedCharacters: MAX_PAYLOAD, recursionDepth: 0 },
   analyze: scanHidden,
-}, directAnalyzer, ...unicodeAnalyzers, encodingAnalyzer];
+}, directAnalyzer, ...unicodeAnalyzers, encodingAnalyzer, markupAnalyzer];
 
 export const MAX_DEPTH = 3, MAX_DECODED_TOTAL = 20000, MAX_LAYERS = 32;
 

@@ -43,7 +43,7 @@ The checked-in tables come from **Unicode 18.0.0**. The character inventory and 
 
 Adjacent repeats of the same ordinary control are grouped into a single finding with a count. Tag runs are grouped separately. Each finding includes readable names where Unicode provides them, code points, and exact source ranges. Reserved default-ignorables receive an explicit fallback name.
 
-Legitimate joiners, variation selectors, byte-order marks, emoji, and directional controls are described as formatting evidence. The extensions below add defined variation, bidi, confusable, normalization, and direct-text coverage. They do not establish intent. General markup inspection remains later-alpha work; bounded encoding inspection is described below.
+Legitimate joiners, variation selectors, byte-order marks, emoji, and directional controls are described as formatting evidence. The extensions below add defined variation, bidi, confusable, normalization, and direct-text coverage. They do not establish intent. Bounded encoding and source inspection are described below.
 
 ## Positions and budgets
 
@@ -101,3 +101,21 @@ Every nested finding shows `Input → codec → ...`. Its source selection highl
 Spacing, alternating ASCII casing, leetspeak (`a/e/i/o/s/t` → `4/3/1/0/5/7`), and reversal of internal letters of ASCII words are reproducible **heuristic illustrations**. Only their labeled `[[EVASION:NAME]]...[[/EVASION]]` frames are recognized. DIMWIT does not infer semantic equivalence, recover an original sentence, or predict model behavior.
 
 References: [RFC 4648](https://www.rfc-editor.org/rfc/rfc4648), [RFC 3986](https://www.rfc-editor.org/rfc/rfc3986), [RFC 8259](https://www.rfc-editor.org/rfc/rfc8259), and [HTML character references](https://html.spec.whatwg.org/multipage/named-characters.html).
+
+## Indirect and markup source (0.0.5)
+
+Demonstrate separates a fixed trusted task (summarize the source as data), an editable untrusted source excerpt, and the inserted instruction. The output is source text only. Recipes cover HTML comments, block comments, line comments, metadata `content`, `title` and `data-note` attributes, `hidden`, `template`, `noscript`, inline `display: none`, Markdown links/images/reference definitions, and an inert image/resource example with a fixed `void 0` event body. All destinations are reserved `example.invalid` URLs. Comment-breaking delimiters and unsupported multiline labels are rejected; attribute/text escaping is visible in Raw and does not change the original fields.
+
+Source inspection uses a bounded lexical subset, **not** a browser parser, full CommonMark implementation, document parser, or visibility engine:
+
+- HTML comments end at the first `-->`; nested-looking or unterminated comments are explicit partial evidence. `/* ... */` blocks and lines starting with `//` or `#` are source-like comment candidates, including benign documentation. Nested block comments are unsupported.
+- Tags are scanned with quote-aware `>` boundaries. Quoted/unquoted attributes are supported; incomplete attributes produce partial evidence. Selected values include `content`, `title`, `alt`, `aria-label`, `data-*`, and `href/src/action/formaction` destinations. Original source offsets are retained even when quotes contain `>` or surrounding text uses supplementary code points.
+- Selected literal local hiding declarations are `display:none`, `visibility:hidden`, `opacity:0`, `font-size:0` and the `hidden` attribute. `aria-hidden=true` is labeled as an accessibility exposure indicator, not a visual hiding rule. Template/noscript and hiding-container spans retain nested source boundaries where supported.
+- Script, iframe, object, embed, link and style elements; event attributes; literal active URL schemes; and CSS `url(...)`/`expression(...)` are active-content or resource **indicators**. They are never executed. Entity-obfuscated attributes, malformed browser recovery, optional closing tags, raw-text parsing details, stylesheet cascades and custom parser extensions are not fully modeled.
+- Markdown inspection supports bounded single-line links/images with non-nested destinations (or angle-bracket destinations), optional quoted titles, and reference-definition lines. Nested parentheses or unmatched `](` destinations are explicit unsupported/partial syntax. Link-shaped strings inside code or quotations can be benign matches; reference usage resolution and full Markdown parsing are outside scope.
+
+Generic source structures, active-content indicators, and English instruction-like matches inside a source region are different findings. Contextual instruction matches expose the exact lexical span and rule, and remain heuristic. Other analyzers still run independently, including on decoded source layers. No source structure establishes privileged instructions or malicious intent.
+
+At most 500 HTML/comment tokens, 32 tag-nesting levels and the shared 200 findings are processed/displayed; depth/token/finding limits and unsupported constructs make inspection incomplete. Pasting rendered text may omit comments, metadata or hidden nodes completely. External CSS, fonts, layout, scripts and downstream parsers can change visibility or meaning beyond the local evidence. DIMWIT never fetches a source page or resolves a pasted destination.
+
+References: [HTML syntax and comments](https://html.spec.whatwg.org/multipage/syntax.html), [HTML hidden attribute](https://html.spec.whatwg.org/multipage/interaction.html#the-hidden-attribute), and [CommonMark source syntax](https://spec.commonmark.org/0.31.2/).

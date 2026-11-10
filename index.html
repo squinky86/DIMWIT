@@ -27,12 +27,13 @@ application: true
           <div x-show="hasField('placement')"><label for="placement">Place hidden text</label><select id="placement" x-model="placement" @change="queueDemo"><option value="append">After cover</option><option value="prepend">Before cover</option></select></div>
         </div>
         <div x-show="hasField('variant')"><label for="variant" x-text="currentMethod.optionLabel"></label><select id="variant" x-model="variant" @change="queueDemo"><template x-for="option in (currentMethod.options || [])" :key="option"><option :value="option" x-text="option"></option></template></select></div>
-        <label x-show="hasField('cover')" for="cover-input">Visible cover text <span class="optional">optional · any Unicode</span></label>
+        <label x-show="hasField('cover')" for="cover-input"><span x-text="currentMethod.coverLabel || 'Visible cover text'"></span> <span class="optional">optional · any Unicode</span></label>
         <textarea x-show="hasField('cover')" id="cover-input" x-model="cover" @input="queueDemo($event)" @compositionstart="startComposition('demo')" @compositionend="endComposition('demo')" rows="3" spellcheck="false" autocomplete="off" placeholder="What someone will see at first glance."></textarea>
         <label for="payload-input" x-text="currentMethod.payloadLabel"></label>
         <textarea id="payload-input" x-model="payload" @input="queueDemo($event)" @compositionstart="startComposition('demo')" @compositionend="endComposition('demo')" rows="3" spellcheck="false" autocomplete="off" aria-describedby="payload-help"></textarea>
         <div class="field-meta"><span id="payload-help" x-text="currentMethod.payloadHelp"></span><span x-text="payload.length.toLocaleString() + ' / 1,024'"></span></div>
         <p class="notice error" x-show="demoError" x-text="demoError" role="alert"></p>
+        <details x-show="currentMethod.trustedInstruction"><summary>Trust boundary in this example</summary><p><strong>Trusted task:</strong> <span x-text="currentMethod.trustedInstruction"></span></p><p>The output is untrusted source. The inserted instruction is the payload field above. Outcomes are illustrative; no model or external target is invoked.</p></details>
         <div class="editor-footer"><button type="button" class="text-button" @click="resetDemo">Reset example</button><a href="{{ '/docs/format/' | relative_url }}">How this technique works ↗</a></div>
       </section>
 
@@ -88,7 +89,7 @@ application: true
         <p class="coverage-result" x-show="result && result.checks.length">Checks: <span x-text="checkSummary"></span></p>
       </section>
     </section>
-    <p class="scope-note">This alpha inspects supported Unicode, structural text, and bounded encoded layers. Findings do not establish intent; no findings does not establish safety. <a href="{{ '/docs/format/' | relative_url }}">Coverage &amp; limits ↗</a></p>
+    <p class="scope-note">This alpha inspects supported Unicode, structural text, encodings, and markup source. Findings do not establish intent; no findings does not establish safety. <a href="{{ '/docs/format/' | relative_url }}">Coverage &amp; limits ↗</a></p>
     <p class="sr-only" role="status" aria-live="polite" aria-atomic="true" x-text="announcement"></p>
   </div>
 </main>

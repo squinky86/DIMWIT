@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.0.5 — 2026-11-10
+
+- Added inert HTML/code-comment, metadata/attribute, hidden/template/noscript, Markdown link/image/reference, and active-source demonstrations with explicit trust boundaries.
+- Added bounded source inspection with quote-aware tag scanning, exact attribute/comment/container spans, independent lexical instruction evidence, and selected hiding/resource/active-content indicators.
+- Added benign, malformed, nested-looking, delimiter-bearing and encoded-source fixtures. Markup is never rendered and destinations are never resolved or fetched.
+- Documented parser subsets and the limits of source versus rendered copy/paste and external visibility.
+
 ## 0.0.4 — 2026-11-10
 
 - Added strict UTF-8 Base64/Base64URL, hex, percent, character-reference and Unicode-escape demonstrations and inspection.

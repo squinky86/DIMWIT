@@ -29,7 +29,7 @@ Choose **Inspect output** to transfer the exact result, or copy it into Inspect 
 3. Read revealed text and the evidence for each finding. **Select** highlights the exact source range in your input. **Explanation, context & exact offsets** expands the character explanation, escaped context, and numeric ranges.
 4. Expand **View whitespace** or normalization/confusable comparisons to examine formatting without changing the original. Use **View escaped input** when you want to examine the complete input within the scan budget. Longer findings and previews scroll within their panels; content is not silently omitted.
 
-The **Hidden instruction**, **Ordinary text**, and **Emoji & formatting** examples update immediately. Emoji, joiners, and directional formatting can legitimately produce findings. Inspect does not invoke a model, execute pasted markup, or visit links.
+The **Hidden instruction**, **Ordinary text**, and **Emoji & formatting** examples update immediately. Emoji, joiners, and directional formatting can legitimately produce findings. Inspect does not invoke a model, execute pasted markup, or visit links. Source techniques show comments, metadata, hidden-container syntax and destinations; rendered copy/paste may have already discarded that material. Expand the technique’s trust boundary to distinguish the fixed task, untrusted source, and inserted instruction.
 
 ## Reading the results
 
@@ -37,6 +37,7 @@ The **Hidden instruction**, **Ordinary text**, and **Emoji & formatting** exampl
 | --- | --- |
 | Evidence found | Supported observations are present. Review the individual evidence. |
 | Supported structure | Literal framing matches a documented recipe; it proves neither origin nor privileged status. |
+| Source / active indicator | A supported markup structure or resource/execution indicator occurs in source text. It is not executed or fetched, and final visibility is unknown. |
 | Heuristic match | A visible phrase, role label, or delimiter matched a rule. Benign quotations and documentation can match. |
 | Revealed / encoded content | A supported encoding was decoded. This reveals content, not intent or origin. |
 | Comparison | A limited visual mapping or normalization form differs. It is not recovered original text or a cleanup recommendation. |
