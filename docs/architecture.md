@@ -38,7 +38,7 @@ Render all user-controlled and decoded content as text. Never render pasted HTML
 
 ## Technique families
 
-The alpha releases implement these families:
+The 0.1.0 beta integrates these families:
 
 - Non-printing text, including the prototype-inspired initial demonstration.
 - Direct and structural injection, including instruction overrides, role impersonation, delimiter breakouts, and extraction requests.

@@ -31,6 +31,13 @@ test('Demonstrate opens with a complete inspectable example', () => {
   assert.equal(inspect(app.output).findings[0].decoded, app.payload);
   assert.equal(app.result.status, 'empty');
 });
+test('every analyzer evidence category has standardized result language', () => {
+  const { app } = setup();
+  for (const kind of ['hidden', 'encoded', 'formatting', 'partial', 'structure', 'heuristic', 'comparison', 'active']) {
+    assert.notEqual(app.findingLabel(kind), 'Observation', kind);
+  }
+  assert.equal(app.findingLabel('active'), 'Active indicator');
+});
 test('typing restarts the delay and only the final demo input generates output', () => {
   const { app, tick, timers } = setup();
   app.payload = 'first'; app.queueDemo(); tick(UPDATE_DELAY - 1);

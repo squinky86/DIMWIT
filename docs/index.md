@@ -4,7 +4,7 @@ permalink: /docs/
 ---
 # See what your text is carrying
 
-DIMWIT {{ site.data.build.version }} is an alpha for demonstrating injection techniques and inspecting pasted text. It runs locally in your browser. Pasted text, generated output, and findings are not uploaded or saved.
+DIMWIT {{ site.data.build.version }} is a beta for demonstrating injection techniques and inspecting pasted text. It runs locally in your browser. Pasted text, generated output, and findings are not uploaded or saved.
 
 ## Demonstrate a technique
 
@@ -58,7 +58,7 @@ An inspection considers at most 50,000 original UTF-16 units and reports at most
 
 The original input is never normalized or stripped. Other apps, text editors, or models may alter hidden characters during copy/paste. Hidden tags are not encryption or authenticated provenance.
 
-Read the [exact character mapping and coverage]({{ '/docs/format/' | relative_url }}) or the [alpha verification record]({{ '/docs/review/' | relative_url }}).
+Read the [exact character mapping and coverage]({{ '/docs/format/' | relative_url }}) or the [beta verification record]({{ '/docs/review/' | relative_url }}).
 
 ## Credits and source
 

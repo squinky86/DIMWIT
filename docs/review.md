@@ -1,10 +1,10 @@
 ---
-title: Alpha verification
+title: Beta verification
 permalink: /docs/review/
 ---
-# Alpha verification
+# Beta verification
 
-The 0.0.1–0.0.6 alpha sequence is implemented directly on `main`, with immutable prereleases and successful Pages deployments linked in the [release record]({{ '/docs/releases/' | relative_url }}). The owner's instruction to complete the alpha milestones authorizes release acceptance. The 0.1.0 beta remains open for its separate acceptance and release.
+The 0.1.0 beta integrates the 0.0.1–0.0.6 alpha sequence directly on `main`. Immutable prereleases and successful Pages deployments are linked in the [release record]({{ '/docs/releases/' | relative_url }}). One pasted input runs every supported analyzer; the Demonstrate selection does not change inspection coverage.
 
 ## Reproduce the workflows
 
@@ -17,9 +17,9 @@ The 0.0.1–0.0.6 alpha sequence is implemented directly on `main`, with immutab
 
 ## Automated and browser evidence
 
-The final alpha has **81 unit and interaction tests** across eight files. Coverage includes literal tag and standard encoding vectors, Unicode/BOM round trips, benign multilingual and emoji contexts, confusable/normalization comparisons, nested bidi pairing, source spans, malformed and unsupported syntax, recursion/input/output/candidate limits, independent mixed findings, analyzer failures, inert text, scenario fidelity, debounce/composition/reset behavior, clipboard races, and dependency-report policy. Unsupported codec names and user-controlled attribute names cannot inject directional controls into interface labels.
+The beta has **82 unit and interaction tests** across eight files. Coverage includes literal tag and standard encoding vectors, Unicode/BOM round trips, benign multilingual and emoji contexts, confusable/normalization comparisons, nested bidi pairing, source spans, malformed and unsupported syntax, recursion/input/output/candidate limits, standardized evidence categories, independent mixed findings, analyzer failures, inert text, scenario fidelity, debounce/composition/reset behavior, clipboard races, and dependency-report policy. Unsupported codec names and user-controlled attribute names cannot inject directional controls into interface labels.
 
-`tests/browser.mjs` verifies **20 techniques and ten scenarios with both comparisons** in Chromium 157 and Firefox 159. Checks include output fidelity, source selection, all preview views, keyboard focus, actual clipboard preservation in Chromium, denied-clipboard selection in both browsers, oversized input, explicit script/image inertness, 320/390/768px layouts across all three workflows, and all generated documentation routes. No external content requests or page script errors were observed.
+`tests/browser.mjs` verifies **20 techniques and ten scenarios with both comparisons** in Chromium 157 and Firefox 144.0.2. Checks include output fidelity, source selection, all preview views, keyboard focus, actual clipboard preservation in Chromium, denied-clipboard selection in both browsers, oversized input, explicit script/image inertness, 320/390/768px layouts across all three workflows, and all generated documentation routes. No external content requests or page script errors were observed.
 
 Axe WCAG 2 A/AA and 2.1 A/AA checks pass for technique previews, inspection findings, incomplete inspection, the scenario workspace, and documentation in both browsers. Screenshots were visually reviewed at 1366×768 and mobile width; the default desktop workspace fits without page scrolling. Browser tooling is installed separately from application dependencies; reproduction instructions are in [Development]({{ '/docs/development/' | relative_url }}).
 
@@ -35,4 +35,4 @@ This is actual screen-reader integration testing using recorded speech output, n
 
 Each release confirms application/docs version consistency, tests and production build, live deployment, changelog, immutable tag and GitHub prerelease before closing its milestone. Dependency automation continues to report issues for manual resolution, without PRs or code/lockfile changes; security alerts remain separate. Versions `0.0.x` are alpha and `0.y.x` with `y >= 1` are beta. No backward compatibility is required, and tags are never rewritten.
 
-The supplied prototype directory was checked and contains no files. Alpha proceeds with the independently documented mapping under the owner's instruction, without a prototype-comparison or compatibility claim. See [techniques and coverage]({{ '/docs/format/' | relative_url }}) for exact parser subsets, Unicode data, decoding budgets, external trust assumptions and known gaps.
+The supplied prototype directory was checked and contains no files. DIMWIT uses the independently documented mapping without a prototype-comparison or compatibility claim. See [techniques and coverage]({{ '/docs/format/' | relative_url }}) for exact parser subsets, Unicode data, decoding budgets, external trust assumptions and known gaps.

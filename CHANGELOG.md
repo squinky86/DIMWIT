@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0 — 2026-11-16
+
+- Accepted the unified inspector beta: every supported analyzer runs automatically against the same pasted input, independently of the selected demonstration, while multiple and nested findings retain original and decoded-content spans and visible transformation paths.
+- Standardized observable result categories, per-analyzer completion disclosures, unsupported-input handling, shared limits, and incomplete-scan language across Unicode, structural text, encoding, and markup families.
+- Verified mixed-technique, benign, multilingual, malformed, nested, unsupported, and bounded fixtures; inert rendering; keyboard, clipboard, mobile, accessibility, browser, documentation, branding, version, and deployment behavior.
+- Updated Bundler to 4.1.0, kramdown to 2.6.1, and sass-embedded to 1.108.2. Retained Jekyll-constrained `json`, `liquid`, `rouge`, `terminal-table`, and `unicode-display_width` versions after manual review.
+- Published the documented coverage gaps as beta limits: lexical and parser coverage is bounded, Safari and physical devices are unverified, and automated/speech-output accessibility checks are not a human listening study.
+
 ## 0.0.6 — 2026-11-10
 
 - Added ten resettable local scenario walkthroughs covering every implemented family: direct roles, email, web source, document/code comments, retrieved context, fake tool results, proposed memory changes, dummy-data exfiltration, text evasion, and layered retrieved templates.

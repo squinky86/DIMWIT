@@ -55,7 +55,7 @@ export function analyzeTagRun(text, start) {
       kind: flag ? 'formatting' : malformed ? 'partial' : 'hidden',
       title: flag ? 'Emoji flag tag sequence' : malformed ? 'Partial or unsupported tag text' : 'Hidden tag text',
       explanation: flag ? 'This sequence is used for an emoji subdivision flag. Its hidden letters are formatting data.'
-        : invalid ? 'This run contains reserved or language-tag code points. It cannot be decoded completely by this alpha.'
+        : invalid ? 'This run contains reserved or language-tag code points. It cannot be decoded completely by this inspector.'
         : !terminated ? 'Printable tag characters map to the text below, but no CANCEL TAG terminator was found. Completeness cannot be established.'
         : !decoded.length ? 'A CANCEL TAG appears without printable tag text.'
         : 'These non-printing characters map directly to printable ASCII. This reveals content, not its intent.',

@@ -6,7 +6,7 @@ DIMWIT is a browser-based technique demonstrator and pasted-text inspector. Demo
 
 The first alpha delivers the non-printing-text proof of concept. Later alphas add visible, Unicode, encoded, and indirect injection families. The beta release combines them into one inspection workbench. The application does not claim to prove intent, authorship, model obedience, or universal prompt safety.
 
-**Implementation status:** all 0.0.1–0.0.6 alpha features are implemented on `main`, with 20 demonstrations, automatic bounded inspection, and ten local scenarios. [The release record](releases.md) links immutable tags, commits, builds, and issue evidence. The 0.1.0 beta remains open for its separate integration/release acceptance.
+**Implementation status:** all 0.0.1–0.0.6 alpha features and the 0.1.0 unified-inspector beta are implemented on `main`, with 20 demonstrations, automatic bounded inspection, and ten local scenarios. [The release record](releases.md) links immutable tags, commits, builds, and issue evidence.
 
 Develop directly on `main` / HEAD throughout alpha and beta without development pull requests. Backward compatibility is never required, including in later releases. Interfaces, formats, and behavior may change or be removed; old behavior does not need compatibility layers or migration support.
 
@@ -24,7 +24,7 @@ Unicode-tag generation, known subdivision-flag context, and the basic default-ig
 | [0.0.6](https://github.com/squinky86/DIMWIT/milestone/7) | Explore safe scenarios for injected email, web and document content, code comments, retrieved context, fake tool results, memory manipulation, and dummy-data exfiltration. | Scenario boundaries and expected evidence documented; no model, network target, or external content invoked; v0.0.6 released. |
 | [0.1.0](https://github.com/squinky86/DIMWIT/milestone/6) | Inspect text through all analyzers with layered findings, exact evidence, incomplete-scan reporting, and documented coverage. | Cross-technique, benign, multilingual, accessibility, browser, dependency, and deployment gates passed; v0.1.0 released as beta. |
 
-Each alpha adds a coherent technique family to both Demonstrate and Inspect where static analysis is meaningful. Demonstrations may include examples that cannot be reliably recognized in arbitrary prose; those remain educational examples rather than detector promises. Every release requires safe inert rendering, source-span evidence, benign counterexamples, generated documentation, a changelog, an immutable version tag, and a GitHub release marked prerelease.
+Each alpha added a coherent technique family to both Demonstrate and Inspect where static analysis is meaningful; the beta accepts their combined inspection behavior. Demonstrations may include examples that cannot be reliably recognized in arbitrary prose; those remain educational examples rather than detector promises. Every release requires safe inert rendering, source-span evidence, benign counterexamples, generated documentation, a changelog, an immutable version tag, and a GitHub release marked prerelease.
 
 ## Application workflows
 

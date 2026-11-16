@@ -10,7 +10,7 @@ DIMWIT is a Jekyll and Alpine.js web application for demonstrating prompt-inject
 
 [Application on GitHub Pages](https://squinky86.github.io/DIMWIT/) · [Generated documentation](https://squinky86.github.io/DIMWIT/docs/) · [Milestones](https://github.com/squinky86/DIMWIT/milestones) · [Roadmap](docs/roadmap.md) · [Architecture](docs/architecture.md)
 
-The **0.0.6 alpha** includes 20 local demonstrations and an automatic inspector for direct/structural text, Unicode deception, supported encodings, and markup source. Ten resettable scenarios put those techniques in explicit trust contexts, with benign comparisons and layered evidence. [Release notes](https://github.com/squinky86/DIMWIT/releases/tag/v0.0.6) link the immutable release and verification; successful `main` builds publish the application and documentation to GitHub Pages.
+The **0.1.0 beta** combines 20 local demonstrations with one automatic inspector for direct/structural text, Unicode deception, supported encodings, and markup source. Ten resettable scenarios put those techniques in explicit trust contexts, with benign comparisons and layered evidence. [Release notes](https://github.com/squinky86/DIMWIT/releases/tag/v0.1.0) link the immutable release and verification; successful `main` builds publish the application and documentation to GitHub Pages.
 
 **Demonstrate** is the default, with a ready-made example and a live preview beside the fields. **Scenarios** offers reproducible walkthroughs without calling a model or external target. **Inspect** runs all supported checks against pasted text and shows exact positions, decoded text, escaped evidence, and incomplete-scan notices. Both workflows update automatically 0.6 seconds after typing or pasting stops. Rendered/raw/escaped views and expandable evidence retain the detail in a compact workspace.
 
@@ -28,16 +28,16 @@ Source tools cover comments, metadata/attributes, hiding and active-content indi
 | [0.0.6](https://github.com/squinky86/DIMWIT/milestone/7) | Scenario demonstrations |
 | [0.1.0](https://github.com/squinky86/DIMWIT/milestone/6) | Unified inspector beta |
 
-Versions `0.0.x` are alpha; `0.y.x` with `y >= 1` are beta. All six planned alpha milestones are implemented; their releases and evidence are linked in [the alpha release record](docs/releases.md). The 0.1.0 beta remains open. The roadmap and issue acceptance criteria are maintained in GitHub. No release dates are committed.
+Versions `0.0.x` are alpha; `0.y.x` with `y >= 1` are beta. All six planned alpha milestones and the unified-inspector beta milestone are implemented; their releases and evidence are linked in [the release record](docs/releases.md). The roadmap and issue acceptance criteria are maintained in GitHub. No future release dates are committed.
 
 Development goes directly to `main` / HEAD throughout alpha and beta, without development pull requests. Backward compatibility is never required, including in later releases: interfaces, formats, and behavior may change or be removed as needed. Release notes describe those changes.
 
 ## Development
 
-Use Node 26 LTS, Ruby 4.0, and Bundler 4.0.24. The version files select the current patch within each runtime series. Install the compiler and Ruby development headers required by your platform, then run:
+Use Node 26 LTS, Ruby 4.0, and Bundler 4.1.0. The version files select the current patch within each runtime series. Install the compiler and Ruby development headers required by your platform, then run:
 
 ```sh
-gem install bundler -v 4.0.24
+gem install bundler -v 4.1.0
 bundle config set --local path vendor/bundle
 bundle install
 npm ci

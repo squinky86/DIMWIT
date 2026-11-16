@@ -8,10 +8,10 @@ The application is Jekyll plus Alpine.js, with no backend or model integration. 
 
 ## Local setup
 
-Use Node 26 LTS and Ruby 4.0, as selected in `.node-version` and `.ruby-version`. These identifiers follow stable patch releases within their series. Install Bundler 4.0.24, a compiler, Ruby development headers, and OpenSSL development libraries where your platform requires them.
+Use Node 26 LTS and Ruby 4.0, as selected in `.node-version` and `.ruby-version`. These identifiers follow stable patch releases within their series. Install Bundler 4.1.0, a compiler, Ruby development headers, and OpenSSL development libraries where your platform requires them.
 
 ```sh
-gem install bundler -v 4.0.24
+gem install bundler -v 4.1.0
 bundle config set --local path vendor/bundle
 bundle install
 npm ci
@@ -22,7 +22,7 @@ npm run dev
 
 Open `http://127.0.0.1:4000/DIMWIT/`. Ensure `ruby` and `bundle` on your `PATH` belong to the selected Ruby installation. The production build uses `/DIMWIT` as its base path, matching GitHub Pages.
 
-`npm run build` copies Alpine and its license, generates display-version data from `package.json`, builds with Jekyll, and checks internal links, assets, version labels, and build exclusions. `npm test` uses Node’s built-in test runner; there is no application test-framework dependency. The version comes from `package.json` and is labeled **alpha** for `0.0.x` releases.
+`npm run build` copies Alpine and its license, generates display-version data from `package.json`, builds with Jekyll, and checks internal links, assets, version labels, and build exclusions. `npm test` uses Node’s built-in test runner; there is no application test-framework dependency. The version comes from `package.json`; `0.0.x` is labeled **alpha** and later `0.y.x` versions are labeled **beta**.
 
 ## Code map
 
@@ -63,7 +63,7 @@ Run `node scripts/check-dependencies.mjs` for a read-only report using Node, Rub
 
 ### Current upstream constraints
 
-The [#20 dependency review](https://github.com/squinky86/DIMWIT/issues/20) verified Jekyll 4.4.1 and Alpine 3.17.5 as current stable releases on 2026-11-10. Jekyll's published requirements exclude these newer gem majors:
+The [#21 dependency review](https://github.com/squinky86/DIMWIT/issues/21) updated Bundler to 4.1.0, kramdown to 2.6.1, and sass-embedded to 1.108.2 on 2026-11-16. Jekyll 4.4.1 and Alpine 3.17.5 remain the current stable parent dependencies reviewed for this release. Jekyll's published requirements exclude these newer gem majors:
 
 <div class="table-scroll" role="region" aria-label="Reviewed gem versions and dependency requirements" tabindex="0" markdown="1">
 

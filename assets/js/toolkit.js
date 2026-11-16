@@ -59,7 +59,7 @@ export function createToolkit({ schedule = setTimeout, cancel = clearTimeout } =
         incomplete: 'Some content could not be fully inspected. Available evidence is shown; your original text is preserved.' })[this.result?.status] ?? '';
     },
     get checkSummary() { return this.result?.checks.map(c => `${c.label} (${c.complete ? 'completed within input budget' : 'incomplete'})`).join('; ') ?? ''; },
-    findingLabel(kind) { return ({ hidden: 'Revealed content', encoded: 'Encoded text', formatting: 'Formatting', partial: 'Review needed', structure: 'Supported structure', heuristic: 'Heuristic match', comparison: 'Comparison' })[kind] ?? 'Observation'; },
+    findingLabel(kind) { return ({ hidden: 'Revealed content', encoded: 'Encoded text', formatting: 'Formatting', partial: 'Review needed', structure: 'Supported structure', heuristic: 'Heuristic match', comparison: 'Comparison', active: 'Active indicator' })[kind] ?? 'Observation'; },
     changeTechnique() { this.variant = this.currentMethod.defaultVariant ?? ''; this.queueDemo(); },
     queueDemo(event = {}) {
       cancelDemo();

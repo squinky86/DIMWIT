@@ -1,10 +1,10 @@
 ---
-title: Alpha release record
+title: Release record
 permalink: /docs/releases/
 ---
-# Alpha release record
+# Release record
 
-All six planned alpha versions are implemented on `main`. Each release has an immutable tag and GitHub prerelease. Pages follows the latest successful `main` build, so historical version behavior is represented by its tagged source, not by the current public application. The 0.1.0 beta remains a separate open milestone.
+All six planned alpha versions and the unified-inspector beta are implemented on `main`. Each release has an immutable tag and GitHub prerelease. Pages follows the latest successful `main` build, so historical version behavior is represented by its tagged source, not by the current public application.
 
 | Version | Scope | Release evidence |
 | --- | --- | --- |
@@ -14,7 +14,8 @@ All six planned alpha versions are implemented on `main`. Each release has an im
 | [0.0.4](https://github.com/squinky86/DIMWIT/releases/tag/v0.0.4) | Encoded and obfuscated text | [Commit](https://github.com/squinky86/DIMWIT/commit/b929f2ab5f0a99893402c746c3fdfca893bcef16) · [Build/deploy](https://github.com/squinky86/DIMWIT/actions/runs/42885621815) · [Issue #13](https://github.com/squinky86/DIMWIT/issues/13) |
 | [0.0.5](https://github.com/squinky86/DIMWIT/releases/tag/v0.0.5) | Indirect and markup source | [Commit](https://github.com/squinky86/DIMWIT/commit/d59aa3c5152ea3995ecf7adfcb41bcd150962f69) · [Build/deploy](https://github.com/squinky86/DIMWIT/actions/runs/42886608736) · [Issue #14](https://github.com/squinky86/DIMWIT/issues/14) |
 | [0.0.6](https://github.com/squinky86/DIMWIT/releases/tag/v0.0.6) | Local scenario walkthroughs | [Tagged source](https://github.com/squinky86/DIMWIT/tree/v0.0.6) · [Issue #18 with commit/build evidence](https://github.com/squinky86/DIMWIT/issues/18) |
+| [0.1.0](https://github.com/squinky86/DIMWIT/releases/tag/v0.1.0) | Unified automatic inspector beta | [Tagged source](https://github.com/squinky86/DIMWIT/tree/v0.1.0) · [Issue #15 with acceptance evidence](https://github.com/squinky86/DIMWIT/issues/15) |
 
 Each release was verified with relevant unit/interaction fixtures, a production Jekyll build, version and generated-link checks, and Chromium/Firefox keyboard, clipboard, mobile viewport and axe checks. Orca speech-output verification covers the shared controls and scenario workflow. Coverage is detailed in the [verification record]({{ '/docs/review/' | relative_url }}). Safari, physical devices and human listening studies are not claimed.
 
-The original prototype directory is empty; the alpha uses an independently specified Unicode-tag mapping with no compatibility claim. Backward compatibility is never required. No release tag is rewritten.
+The original prototype directory is empty; DIMWIT uses an independently specified Unicode-tag mapping with no compatibility claim. Backward compatibility is never required. No release tag is rewritten.
