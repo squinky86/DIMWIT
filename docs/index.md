@@ -8,6 +8,8 @@ DIMWIT {{ site.data.build.version }} is a beta for demonstrating injection techn
 
 ## Demonstrate a technique
 
+Use **Dark mode** in the header to switch between light and dark appearance. Your choice is saved in this browser across reloads and documentation pages. If browser storage is unavailable, the switch still works for the current page. Only the theme preference is saved; pasted text and findings remain in memory.
+
 [The toolkit]({{ '/' | relative_url }}) opens in **Demonstrate** with a ready-made example. Edit visible cover text and the text to hide on the left; the preview on the right updates **0.6 seconds after you stop typing or pasting**. There is no Generate button or delay setting. On narrow screens, the preview sits directly below the fields.
 
 Choose a technique in Demonstrate. Unicode tags accept up to 1,024 printable ASCII characters; other techniques accept up to 1,024 UTF-16 units of Unicode. Reset example loads the selected technique’s example. The cover accepts Unicode. Choose whether hidden text goes before or after the cover. Input methods such as Japanese composition can finish before an update runs.

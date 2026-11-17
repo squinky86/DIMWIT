@@ -107,6 +107,51 @@ for (const engine of ['chromium', 'firefox']) {
   }
   assert.deepEqual(errors, []);
   assert.deepEqual(external, []);
+  await page.goto(base);
+  const themeSwitch = page.getByRole('switch', { name: 'Dark mode', exact: true });
+  assert.equal(await themeSwitch.getAttribute('aria-checked'), 'false');
+  await themeSwitch.focus();
+  await page.keyboard.press('Space');
+  assert.equal(await themeSwitch.getAttribute('aria-checked'), 'true');
+  await page.reload();
+  assert.equal(await themeSwitch.getAttribute('aria-checked'), 'true');
+  await ready();
+  await audit('dark demonstration');
+  await page.getByRole('button', { name: 'Inspect output', exact: false }).click();
+  await page.locator('.finding').first().waitFor();
+  await audit('dark findings');
+  await page.locator('#inspect-input').fill('[[ENC:unknown]]data[[/ENC]]');
+  await page.locator('#results-title').filter({ hasText: 'Inspection incomplete' }).waitFor();
+  await audit('dark incomplete');
+  await page.getByRole('button', { name: 'Scenarios', exact: true }).click();
+  await audit('dark scenarios');
+  for (const width of [320, 390, 768]) {
+    await page.setViewportSize({ width, height: 844 });
+    assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `dark header overflow at ${width}`);
+  }
+  await page.goto(base + 'docs/');
+  assert.equal(await themeSwitch.getAttribute('aria-checked'), 'true');
+  assert.equal(await page.evaluate(() => document.documentElement.dataset.theme), 'dark');
+  await audit('dark documentation');
+  await themeSwitch.focus();
+  await page.keyboard.press('Enter');
+  await page.reload();
+  assert.equal(await themeSwitch.getAttribute('aria-checked'), 'false');
+  assert.equal(await page.evaluate(() => document.documentElement.dataset.theme), 'light');
+  const blocked = await browser.newContext();
+  await blocked.addInitScript(() => {
+    Object.defineProperty(window, 'localStorage', { get() { throw new Error('Storage denied'); } });
+  });
+  const blockedPage = await blocked.newPage();
+  blockedPage.on('pageerror', error => errors.push(error.message));
+  await blockedPage.goto(base);
+  const blockedSwitch = blockedPage.getByRole('switch', { name: 'Dark mode', exact: true });
+  await blockedSwitch.click();
+  assert.equal(await blockedSwitch.getAttribute('aria-checked'), 'true');
+  assert.equal(await blockedPage.evaluate(() => document.documentElement.dataset.theme), 'dark');
+  await blocked.close();
+  assert.deepEqual(errors, []);
+  console.log(`${engine}: theme keyboard controls, persistence, dark-mode axe/mobile checks and denied-storage fallback passed.`);
   console.log(`${engine} ${browser.version()}: ${methods.length} techniques and ${scenarios.length} scenarios with both comparisons, inert previews, findings, keyboard, clipboard, mobile and axe checks passed.`);
   await browser.close();
 }

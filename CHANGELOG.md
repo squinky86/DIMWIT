@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Added a keyboard-accessible Dark mode switch in the shared header. Light remains the default; the selected theme persists locally across reloads and application/documentation pages. Inspection text is never stored.
+
 ## 0.1.0 — 2026-11-16
 
 - Accepted the unified inspector beta: every supported analyzer runs automatically against the same pasted input, independently of the selected demonstration, while multiple and nested findings retain original and decoded-content spans and visible transformation paths.
